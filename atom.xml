@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>夜</title>
+  
+  <subtitle>小小的夜</subtitle>
+  <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://xxdeye.github.io/"/>
+  <updated>2021-12-31T03:03:31.017Z</updated>
+  <id>http://xxdeye.github.io/</id>
+  
+  <author>
+    <name>xxdeye</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://xxdeye.github.io/2021/12/31/hello-world/"/>
+    <id>http://xxdeye.github.io/2021/12/31/hello-world/</id>
+    <published>2021-12-31T03:03:31.016Z</published>
+    <updated>2021-12-31T03:03:31.017Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CEPH部署</title>
+    <link href="http://xxdeye.github.io/2021/12/30/ceph-bu-shu/"/>
+    <id>http://xxdeye.github.io/2021/12/30/ceph-bu-shu/</id>
+    <published>2021-12-30T13:15:52.000Z</published>
+    <updated>2021-12-31T03:03:31.014Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Ceph部署流程&quot;&gt;&lt;a href=&quot;#Ceph部署流程&quot; class=&quot;headerlink&quot; title=&quot;Ceph部署流程&quot;&gt;&lt;/a&gt;Ceph部署流程&lt;/h1&gt;&lt;h2 id=&quot;预检&quot;&gt;&lt;a href=&quot;#预检&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Ceph" scheme="http://xxdeye.github.io/categories/Ceph/"/>
+    
+    
+    <category term="Ceph" scheme="http://xxdeye.github.io/tags/Ceph/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ES启动报错</title>
+    <link href="http://xxdeye.github.io/2021/12/29/es-qi-dong-bao-cuo/"/>
+    <id>http://xxdeye.github.io/2021/12/29/es-qi-dong-bao-cuo/</id>
+    <published>2021-12-29T14:20:16.000Z</published>
+    <updated>2021-12-31T03:03:31.015Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;错误信息&quot;&gt;&lt;a href=&quot;#错误信息&quot; class=&quot;headerlink&quot; title=&quot;错误信息&quot;&gt;&lt;/a&gt;错误信息&lt;/h1&gt;&lt;pre class=&quot;line-numbers language-shell&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Elasticsearch" scheme="http://xxdeye.github.io/categories/Elasticsearch/"/>
+    
+    
+    <category term="Elasticsearch" scheme="http://xxdeye.github.io/tags/Elasticsearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rancher2部署</title>
+    <link href="http://xxdeye.github.io/2021/12/28/rancher2-da-jian/"/>
+    <id>http://xxdeye.github.io/2021/12/28/rancher2-da-jian/</id>
+    <published>2021-12-28T14:38:57.000Z</published>
+    <updated>2021-12-31T06:17:37.590Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;一、服务端&quot;&gt;&lt;a href=&quot;#一、服务端&quot; class=&quot;headerlink&quot; title=&quot;一、服务端&quot;&gt;&lt;/a&gt;一、服务端&lt;/h1&gt;&lt;h2 id=&quot;部署k3s&quot;&gt;&lt;a href=&quot;#部署k3s&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Rancher" scheme="http://xxdeye.github.io/categories/Rancher/"/>
+    
+    
+    <category term="Rancher" scheme="http://xxdeye.github.io/tags/Rancher/"/>
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>文章测试</title>
+    <link href="http://xxdeye.github.io/2021/12/27/wen-zhang-ce-shi/"/>
+    <id>http://xxdeye.github.io/2021/12/27/wen-zhang-ce-shi/</id>
+    <published>2021-12-27T14:13:17.000Z</published>
+    <updated>2021-12-31T03:03:31.024Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;奥术大师多&lt;/p&gt;
+&lt;p&gt;Asdasd&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="go" scheme="http://xxdeye.github.io/tags/go/"/>
+    
+    <category term="python" scheme="http://xxdeye.github.io/tags/python/"/>
+    
+  </entry>
+  
+</feed>
