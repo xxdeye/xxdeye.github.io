@@ -483,40 +483,40 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="Ceph部署流程"><a href="#Ceph部署流程" class="headerlink" title="Ceph部署流程"></a>Ceph部署流程</h1><h2 id="预检"><a href="#预检" class="headerlink" title="预检"></a>预检</h2><h3 id="一、部署服务器安装"><a href="#一、部署服务器安装" class="headerlink" title="一、部署服务器安装"></a>一、部署服务器安装</h3><h4 id="1、新加软件包源"><a href="#1、新加软件包源" class="headerlink" title="1、新加软件包源"></a>1、新加软件包源</h4><p>用 Ceph 的最新主稳定版名字替换 <code>{ceph-stable-release}</code> （如 <code>firefly</code> ），用你的Linux发行版名字替换 <code>{distro}</code> （如 <code>el6</code> 为 CentOS 6 、 <code>el7</code> 为 CentOS 7 、 <code>rhel6</code> 为 Red Hat 6.5 、 <code>rhel7</code> 为 Red Hat 7 、 <code>fc19</code> 是 Fedora 19 、 <code>fc20</code> 是 Fedora 20 ）</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">vim</span> /etc/yum.repos.d/ceph.repo
-<span class="token punctuation">[</span>ceph-noarch<span class="token punctuation">]</span>
-<span class="token assign-left variable">name</span><span class="token operator">=</span>Ceph noarch packages
-<span class="token assign-left variable">baseurl</span><span class="token operator">=</span>http://download.ceph.com/rpm-<span class="token punctuation">{</span>ceph-release<span class="token punctuation">}</span>/<span class="token punctuation">{</span>distro<span class="token punctuation">}</span>/noarch
-<span class="token assign-left variable">enabled</span><span class="token operator">=</span><span class="token number">1</span>
-<span class="token assign-left variable">gpgcheck</span><span class="token operator">=</span><span class="token number">1</span>
-<span class="token assign-left variable">type</span><span class="token operator">=</span>rpm-md
-<span class="token assign-left variable">gpgkey</span><span class="token operator">=</span>https://download.ceph.com/keys/release.asc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ vim /etc/yum.repos.d/ceph.repo
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=http://download.ceph.com/rpm-{ceph-release}/{distro}/noarch
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=https://download.ceph.com/keys/release.asc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="2、安装ceph-deploy"><a href="#2、安装ceph-deploy" class="headerlink" title="2、安装ceph-deploy"></a>2、安装ceph-deploy</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum <span class="token function">install</span> ceph-deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2、安装ceph-deploy"><a href="#2、安装ceph-deploy" class="headerlink" title="2、安装ceph-deploy"></a>2、安装ceph-deploy</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum install ceph-deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="二、节点服务器安装"><a href="#二、节点服务器安装" class="headerlink" title="二、节点服务器安装"></a>二、节点服务器安装</h3><h4 id="1、安装NTP服务"><a href="#1、安装NTP服务" class="headerlink" title="1、安装NTP服务"></a>1、安装NTP服务</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum <span class="token function">install</span> ntp ntpdate ntp-doc
-$ <span class="token function">vim</span> /etc/ntp.conf
+<h3 id="二、节点服务器安装"><a href="#二、节点服务器安装" class="headerlink" title="二、节点服务器安装"></a>二、节点服务器安装</h3><h4 id="1、安装NTP服务"><a href="#1、安装NTP服务" class="headerlink" title="1、安装NTP服务"></a>1、安装NTP服务</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum install ntp ntpdate ntp-doc
+$ vim /etc/ntp.conf
 server ntp服务器地址 iburst
 $ systemctl restart ntp
-$ systemctl <span class="token builtin class-name">enable</span> ntp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+$ systemctl enable ntp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="2、创建CEPH用户"><a href="#2、创建CEPH用户" class="headerlink" title="2、创建CEPH用户"></a>2、创建CEPH用户</h4><p><code>ceph-deploy</code> 工具必须以<strong>普通用户</strong>登录 Ceph 节点，且此用户拥有无密码使用 <code>sudo</code> 的权限</p>
 <p>并且用户名不能叫ceph，部署服务器到节点的普通用户需要免密登陆</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">useradd</span> <span class="token punctuation">{</span>username<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ useradd {username}<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>允许无密码 SSH 登录</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ssh-keygen<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>把公钥拷贝到各 Ceph 节点</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ssh-copy-id <span class="token punctuation">{</span>username<span class="token punctuation">}</span>@node1
-$ ssh-copy-id <span class="token punctuation">{</span>username<span class="token punctuation">}</span>@node2
-$ ssh-copy-id <span class="token punctuation">{</span>username<span class="token punctuation">}</span>@node3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ssh-copy-id {username}@node1
+$ ssh-copy-id {username}@node2
+$ ssh-copy-id {username}@node3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>部署服务器和节点修改/etc/hosts 使服务器可以解析hostname</p>
 <p>用 <code>ping</code> 短主机名（ <code>hostname -s</code> ）的方式确认网络<strong>联通性</strong></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token number">192.168</span>.xxx.111  node1
-<span class="token number">192.168</span>.xxx.222  node2
-<span class="token number">192.168</span>.xxx.333  node3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">192.168.xxx.111  node1
+192.168.xxx.222  node2
+192.168.xxx.333  node3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="3、关闭防火墙"><a href="#3、关闭防火墙" class="headerlink" title="3、关闭防火墙"></a>3、关闭防火墙</h4><p>关闭部署服务器和节点的防火墙</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ systemctl stop firewalld
@@ -525,20 +525,20 @@ $ systemctl disable firewalld
 $ systemctl disable iptables<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="4、关闭selinux"><a href="#4、关闭selinux" class="headerlink" title="4、关闭selinux"></a>4、关闭selinux</h4><p>在 CentOS 和 RHEL 上， SELinux 默认为 <code>Enforcing</code> 开启状态</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ setenforce <span class="token number">0</span>
-$ <span class="token function">vim</span> /etc/selinux/config
-<span class="token assign-left variable">SELINUX</span><span class="token operator">=</span>disabled
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ setenforce 0
+$ vim /etc/selinux/config
+SELINUX=disabled
 $ getenforce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="5、优先级-首选项"><a href="#5、优先级-首选项" class="headerlink" title="5、优先级/首选项"></a>5、优先级/首选项</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum <span class="token function">install</span> yum-plugin-priorities<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="5、优先级-首选项"><a href="#5、优先级-首选项" class="headerlink" title="5、优先级/首选项"></a>5、优先级/首选项</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum install yum-plugin-priorities<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h2 id="CEPH存储集群"><a href="#CEPH存储集群" class="headerlink" title="CEPH存储集群"></a>CEPH存储集群</h2><h3 id="一、创建集群"><a href="#一、创建集群" class="headerlink" title="一、创建集群"></a>一、创建集群</h3><h4 id="1、创建指定目录"><a href="#1、创建指定目录" class="headerlink" title="1、创建指定目录"></a>1、创建指定目录</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ceph-deploy<span class="token variable"><span class="token variable">`</span> 会把文件输出到当前目录，所以请确保在**此目录下**以普通用户**执行** <span class="token variable">`</span></span>ceph-deploy
-$ <span class="token function">mkdir</span> -p /tools/my-cluster
-$ <span class="token builtin class-name">cd</span> /tools/my-cluster<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="CEPH存储集群"><a href="#CEPH存储集群" class="headerlink" title="CEPH存储集群"></a>CEPH存储集群</h2><h3 id="一、创建集群"><a href="#一、创建集群" class="headerlink" title="一、创建集群"></a>一、创建集群</h3><h4 id="1、创建指定目录"><a href="#1、创建指定目录" class="headerlink" title="1、创建指定目录"></a>1、创建指定目录</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ceph-deploy` 会把文件输出到当前目录，所以请确保在**此目录下**以普通用户**执行** `ceph-deploy
+$ mkdir -p /tools/my-cluster
+$ cd /tools/my-cluster<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="2、创建集群"><a href="#2、创建集群" class="headerlink" title="2、创建集群"></a>2、创建集群</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph-deploy new node1 node2 node3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="3、安装CEPH"><a href="#3、安装CEPH" class="headerlink" title="3、安装CEPH"></a>3、安装CEPH</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph-deploy <span class="token function">install</span> admin-node node1 node2 node3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="3、安装CEPH"><a href="#3、安装CEPH" class="headerlink" title="3、安装CEPH"></a>3、安装CEPH</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph-deploy install admin-node node1 node2 node3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h4 id="4、配置初始monitor"><a href="#4、配置初始monitor" class="headerlink" title="4、配置初始monitor"></a>4、配置初始monitor</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph-deploy mon create-initial<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -573,76 +573,76 @@ $ ceph -s<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph-deploy mds create node1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h4 id="2、创建pool"><a href="#2、创建pool" class="headerlink" title="2、创建pool"></a>2、创建pool</h4><p>CephFS 需要两个 Pools，cephfs_data 和 cephfs_metadata，分别存储文件数据和文件元数据。</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd pool create cephfs_data <span class="token number">128</span> <span class="token number">128</span>
-$ ceph osd pool create cephfs_metadata <span class="token number">64</span> <span class="token number">64</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd pool create cephfs_data 128 128
+$ ceph osd pool create cephfs_metadata 64 64<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>一般 metadata pool 可以从相对较少的 PGs 启动, 之后可以根据需要增加 PGs，存储着 CephFS 文件的元数据</p>
 <h4 id="3、创建CephFS"><a href="#3、创建CephFS" class="headerlink" title="3、创建CephFS"></a>3、创建CephFS</h4><p>metadata，data按照顺序。</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph fs new cephfs cephfs_metadata cephfs_data<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="4、查看CephFS"><a href="#4、查看CephFS" class="headerlink" title="4、查看CephFS"></a>4、查看CephFS</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph fs <span class="token function">ls</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="4、查看CephFS"><a href="#4、查看CephFS" class="headerlink" title="4、查看CephFS"></a>4、查看CephFS</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph fs ls<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h3 id="四、挂载CephFS"><a href="#四、挂载CephFS" class="headerlink" title="四、挂载CephFS"></a>四、挂载CephFS</h3><p>挂载cephfs有两种方式，kernel driver和fuse</p>
-<h4 id="1、kernel-driver挂载"><a href="#1、kernel-driver挂载" class="headerlink" title="1、kernel driver挂载"></a>1、kernel driver挂载</h4><h4 id="1）关闭认证情况"><a href="#1）关闭认证情况" class="headerlink" title="1）关闭认证情况"></a>1）关闭认证情况</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">sudo</span> <span class="token function">mkdir</span> /mnt/wyl
-$ <span class="token function">sudo</span> <span class="token function">mount</span> -t ceph <span class="token number">192.168</span>.xxx.111:/ /mnt/wyl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="1、kernel-driver挂载"><a href="#1、kernel-driver挂载" class="headerlink" title="1、kernel driver挂载"></a>1、kernel driver挂载</h4><h4 id="1）关闭认证情况"><a href="#1）关闭认证情况" class="headerlink" title="1）关闭认证情况"></a>1）关闭认证情况</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ sudo mkdir /mnt/wyl
+$ sudo mount -t ceph 192.168.xxx.111:/ /mnt/wyl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>设置开机自动挂载/etc/fstab</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token number">192.168</span>.xxx.111:/     /mnt/wyl    ceph   noatime,_netdev    <span class="token number">0</span>       <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">192.168.xxx.111:/     /mnt/wyl    ceph   noatime,_netdev    0       2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="2）启用认证情况"><a href="#2）启用认证情况" class="headerlink" title="2）启用认证情况"></a>2）启用认证情况</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">cat</span> ceph.client.admin.keyring
-<span class="token punctuation">[</span>client.admin<span class="token punctuation">]</span>
-	key <span class="token operator">=</span> <span class="token assign-left variable">AQBSdU5bT27AKxAAvKoWQdGpSuNRCHjC4B8DVA</span><span class="token operator">==</span>
-$ <span class="token function">mount</span> -t ceph <span class="token number">192.168</span>.xxx.111:/ /mnt/wyl  -o <span class="token assign-left variable">name</span><span class="token operator">=</span>admin,secret<span class="token operator">=</span>AQBSdU5bT27AKxAAvKoWQdGpSuNRCHjC4B8DVA<span class="token operator">==</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2）启用认证情况"><a href="#2）启用认证情况" class="headerlink" title="2）启用认证情况"></a>2）启用认证情况</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ cat ceph.client.admin.keyring
+[client.admin]
+	key = AQBSdU5bT27AKxAAvKoWQdGpSuNRCHjC4B8DVA==
+$ mount -t ceph 192.168.xxx.111:/ /mnt/wyl  -o name=admin,secret=AQBSdU5bT27AKxAAvKoWQdGpSuNRCHjC4B8DVA==<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="3）-查看认证方式"><a href="#3）-查看认证方式" class="headerlink" title="3） 查看认证方式"></a>3） 查看认证方式</h4><p>auth的值为none为禁用，cephx为启用</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">cat</span> /etc/ceph/ceph.conf 
-auth_cluster_required <span class="token operator">=</span> cephx
-auth_service_required <span class="token operator">=</span> cephx
-auth_client_required <span class="token operator">=</span> cephx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ cat /etc/ceph/ceph.conf 
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="2、fuse挂载"><a href="#2、fuse挂载" class="headerlink" title="2、fuse挂载"></a>2、fuse挂载</h4><h4 id="1）安装挂载工具"><a href="#1）安装挂载工具" class="headerlink" title="1）安装挂载工具"></a>1）安装挂载工具</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum -y <span class="token function">install</span> ceph-fuse ceph<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2、fuse挂载"><a href="#2、fuse挂载" class="headerlink" title="2、fuse挂载"></a>2、fuse挂载</h4><h4 id="1）安装挂载工具"><a href="#1）安装挂载工具" class="headerlink" title="1）安装挂载工具"></a>1）安装挂载工具</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum -y install ceph-fuse ceph<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="2）将存储节点的admin秘钥拷贝到本地"><a href="#2）将存储节点的admin秘钥拷贝到本地" class="headerlink" title="2）将存储节点的admin秘钥拷贝到本地"></a>2）将存储节点的admin秘钥拷贝到本地</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">ssh</span> root@node1 <span class="token string">"ceph-authtool -p /etc/ceph/ceph.client.admin.keyring"</span> <span class="token operator">&gt;</span> admin.key<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2）将存储节点的admin秘钥拷贝到本地"><a href="#2）将存储节点的admin秘钥拷贝到本地" class="headerlink" title="2）将存储节点的admin秘钥拷贝到本地"></a>2）将存储节点的admin秘钥拷贝到本地</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ssh root@node1 "ceph-authtool -p /etc/ceph/ceph.client.admin.keyring" &gt; admin.key<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="3）赋予权限"><a href="#3）赋予权限" class="headerlink" title="3）赋予权限"></a>3）赋予权限</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">chmod</span> <span class="token number">600</span> admin.key<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="3）赋予权限"><a href="#3）赋予权限" class="headerlink" title="3）赋予权限"></a>3）赋予权限</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ chmod 600 admin.key<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h4 id="4）执行挂载"><a href="#4）执行挂载" class="headerlink" title="4）执行挂载"></a>4）执行挂载</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">mount</span> -t ceph node1:/ /mnt -o <span class="token assign-left variable">name</span><span class="token operator">=</span>admin,secretfile<span class="token operator">=</span>admin.key 
-$ <span class="token function">df</span> -hT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="4）执行挂载"><a href="#4）执行挂载" class="headerlink" title="4）执行挂载"></a>4）执行挂载</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ mount -t ceph node1:/ /mnt -o name=admin,secretfile=admin.key 
+$ df -hT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h4 id="5）设置开机自动挂载-etc-fstab"><a href="#5）设置开机自动挂载-etc-fstab" class="headerlink" title="5）设置开机自动挂载/etc/fstab"></a>5）设置开机自动挂载/etc/fstab</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token assign-left variable">id</span><span class="token operator">=</span>admin,conf<span class="token operator">=</span>/etc/ceph/ceph.conf  /mnt fuse.ceph defaults <span class="token number">0</span> <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="5）设置开机自动挂载-etc-fstab"><a href="#5）设置开机自动挂载-etc-fstab" class="headerlink" title="5）设置开机自动挂载/etc/fstab"></a>5）设置开机自动挂载/etc/fstab</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">id=admin,conf=/etc/ceph/ceph.conf  /mnt fuse.ceph defaults 0 0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="一、admin-socket-exception-getting-command-descriptions-Errno-2-No-such-file-or-directory问题解决"><a href="#一、admin-socket-exception-getting-command-descriptions-Errno-2-No-such-file-or-directory问题解决" class="headerlink" title="一、admin_socket: exception getting command descriptions: [Errno 2] No such file or directory问题解决"></a>一、admin_socket: exception getting command descriptions: [Errno 2] No such file or directory问题解决</h2><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="1、检查防火墙有没有关闭"><a href="#1、检查防火墙有没有关闭" class="headerlink" title="1、检查防火墙有没有关闭"></a>1、检查防火墙有没有关闭</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ iptables -F
 $ getenforce
-$ setenforce <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+$ setenforce 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="2、删除之前版本ceph残留的文件"><a href="#2、删除之前版本ceph残留的文件" class="headerlink" title="2、删除之前版本ceph残留的文件"></a>2、删除之前版本ceph残留的文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">rm</span> -rf /etc/ceph/*
-$ <span class="token function">rm</span> -rf /var/lib/ceph/*/*
-$ <span class="token function">rm</span> -rf /var/log/ceph/*
-$ <span class="token function">rm</span> -rf /var/run/ceph/*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2、删除之前版本ceph残留的文件"><a href="#2、删除之前版本ceph残留的文件" class="headerlink" title="2、删除之前版本ceph残留的文件"></a>2、删除之前版本ceph残留的文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ rm -rf /etc/ceph/*
+$ rm -rf /var/lib/ceph/*/*
+$ rm -rf /var/log/ceph/*
+$ rm -rf /var/run/ceph/*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="二、命令mount-t-ceph-xxx-或者-mount-ceph-xxx挂载cephfs时，提示”mount-error-22-Invalid-argument”。"><a href="#二、命令mount-t-ceph-xxx-或者-mount-ceph-xxx挂载cephfs时，提示”mount-error-22-Invalid-argument”。" class="headerlink" title="二、命令mount -t ceph xxx 或者 mount.ceph xxx挂载cephfs时，提示”mount error 22 = Invalid argument”。"></a>二、命令mount -t ceph xxx 或者 mount.ceph xxx挂载cephfs时，提示”mount error 22 = Invalid argument”。</h2><h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><h3 id="1、查看密钥，可知用户名admin的密钥如下："><a href="#1、查看密钥，可知用户名admin的密钥如下：" class="headerlink" title="1、查看密钥，可知用户名admin的密钥如下："></a>1、查看密钥，可知用户名admin的密钥如下：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">sudo</span> <span class="token function">cat</span> ./ceph.client.admin.keyring
-<span class="token punctuation">[</span>client.admin<span class="token punctuation">]</span>
-        key <span class="token operator">=</span> AQDYoQFd0Xr+CRAAIwRmwD7yWim2Nzq44wRwqw<span class="token operator">==</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="二、命令mount-t-ceph-xxx-或者-mount-ceph-xxx挂载cephfs时，提示”mount-error-22-Invalid-argument”。"><a href="#二、命令mount-t-ceph-xxx-或者-mount-ceph-xxx挂载cephfs时，提示”mount-error-22-Invalid-argument”。" class="headerlink" title="二、命令mount -t ceph xxx 或者 mount.ceph xxx挂载cephfs时，提示”mount error 22 = Invalid argument”。"></a>二、命令mount -t ceph xxx 或者 mount.ceph xxx挂载cephfs时，提示”mount error 22 = Invalid argument”。</h2><h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><h3 id="1、查看密钥，可知用户名admin的密钥如下："><a href="#1、查看密钥，可知用户名admin的密钥如下：" class="headerlink" title="1、查看密钥，可知用户名admin的密钥如下："></a>1、查看密钥，可知用户名admin的密钥如下：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ sudo cat ./ceph.client.admin.keyring
+[client.admin]
+        key = AQDYoQFd0Xr+CRAAIwRmwD7yWim2Nzq44wRwqw==<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="2、直接指定密钥挂载"><a href="#2、直接指定密钥挂载" class="headerlink" title="2、直接指定密钥挂载"></a>2、直接指定密钥挂载</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">sudo</span> mount.ceph node1:6789:/ ~/client_cephfs_mnt/ -o <span class="token assign-left variable">name</span><span class="token operator">=</span>admin,secret<span class="token operator">=</span>AQDYoQFd0Xr+CRAAIwRmwD7yWim2Nzq44wRwqw<span class="token operator">==</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="2、直接指定密钥挂载"><a href="#2、直接指定密钥挂载" class="headerlink" title="2、直接指定密钥挂载"></a>2、直接指定密钥挂载</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ sudo mount.ceph node1:6789:/ ~/client_cephfs_mnt/ -o name=admin,secret=AQDYoQFd0Xr+CRAAIwRmwD7yWim2Nzq44wRwqw==<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h2 id="三、无法删除image报rbd-error-image-still-has-watchers"><a href="#三、无法删除image报rbd-error-image-still-has-watchers" class="headerlink" title="三、无法删除image报rbd: error: image still has watchers"></a>三、无法删除image报rbd: error: image still has watchers</h2><h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><h3 id="1、查看当前image上的watcher"><a href="#1、查看当前image上的watcher" class="headerlink" title="1、查看当前image上的watcher"></a>1、查看当前image上的watcher</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ rbd status foo
-<span class="token assign-left variable">watcher</span><span class="token operator">=</span><span class="token number">192.168</span>.xxx.111:0/1135656048 client.4172 <span class="token assign-left variable">cookie</span><span class="token operator">=</span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+watcher=192.168.xxx.111:0/1135656048 client.4172 cookie=1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="2、把该watcher加入黑名单："><a href="#2、把该watcher加入黑名单：" class="headerlink" title="2、把该watcher加入黑名单："></a>2、把该watcher加入黑名单：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist <span class="token function">add</span> <span class="token number">192.168</span>.xxx.111:0/1135656048 
-blacklisting <span class="token number">192.168</span>.xxx.111:0/1135656048 <span class="token keyword">until</span> <span class="token number">2017</span>-10-18 <span class="token number">12</span>:04:19.103313 <span class="token punctuation">(</span><span class="token number">3600</span> sec<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="2、把该watcher加入黑名单："><a href="#2、把该watcher加入黑名单：" class="headerlink" title="2、把该watcher加入黑名单："></a>2、把该watcher加入黑名单：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist add 192.168.xxx.111:0/1135656048 
+blacklisting 192.168.xxx.111:0/1135656048 until 2017-10-18 12:04:19.103313 (3600 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="3、删除该image："><a href="#3、删除该image：" class="headerlink" title="3、删除该image："></a>3、删除该image：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ rbd <span class="token function">rm</span> foo
-Removing image: <span class="token number">100</span>% complete<span class="token punctuation">..</span>.done.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="3、删除该image："><a href="#3、删除该image：" class="headerlink" title="3、删除该image："></a>3、删除该image：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ rbd rm foo
+Removing image: 100% complete...done.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="4、查询黑名单列表"><a href="#4、查询黑名单列表" class="headerlink" title="4、查询黑名单列表"></a>4、查询黑名单列表</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist <span class="token function">ls</span>
-listed <span class="token number">1</span> entries
-<span class="token number">192.168</span>.xxx.111:0/1135656048 <span class="token number">2017</span>-10-18 <span class="token number">12</span>:04:19.103313<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="4、查询黑名单列表"><a href="#4、查询黑名单列表" class="headerlink" title="4、查询黑名单列表"></a>4、查询黑名单列表</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist ls
+listed 1 entries
+192.168.xxx.111:0/1135656048 2017-10-18 12:04:19.103313<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="5、从黑名单移出一个客户端："><a href="#5、从黑名单移出一个客户端：" class="headerlink" title="5、从黑名单移出一个客户端："></a>5、从黑名单移出一个客户端：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist <span class="token function">rm</span> <span class="token number">192.168</span>.xxx.111:0/1135656048 
-un-blacklisting <span class="token number">192.168</span>.xxx.111:0/1135656048<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="5、从黑名单移出一个客户端："><a href="#5、从黑名单移出一个客户端：" class="headerlink" title="5、从黑名单移出一个客户端："></a>5、从黑名单移出一个客户端：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist rm 192.168.xxx.111:0/1135656048 
+un-blacklisting 192.168.xxx.111:0/1135656048<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="6、清空黑名单："><a href="#6、清空黑名单：" class="headerlink" title="6、清空黑名单："></a>6、清空黑名单：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist <span class="token function">clear</span>
+<h3 id="6、清空黑名单："><a href="#6、清空黑名单：" class="headerlink" title="6、清空黑名单："></a>6、清空黑名单：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd blacklist clear
  removed all blacklist entries<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <h2 id="四、Ceph-client无法连接至集群问题解决"><a href="#四、Ceph-client无法连接至集群问题解决" class="headerlink" title="四、Ceph client无法连接至集群问题解决"></a>四、Ceph client无法连接至集群问题解决</h2><h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><h3 id="1、确定节点mon已启"><a href="#1、确定节点mon已启" class="headerlink" title="1、确定节点mon已启"></a>1、确定节点mon已启</h3><p>覆盖配置执行<code>ceph-deploy mon create-initial</code></p>
@@ -650,14 +650,14 @@ un-blacklisting <span class="token number">192.168</span>.xxx.111:0/1135656048<s
 
 <h2 id="五、mon-挂掉后的快速恢复"><a href="#五、mon-挂掉后的快速恢复" class="headerlink" title="五、mon 挂掉后的快速恢复"></a>五、mon 挂掉后的快速恢复</h2><h3 id="解决方法-4"><a href="#解决方法-4" class="headerlink" title="解决方法"></a>解决方法</h3><h3 id="1、移除该mon"><a href="#1、移除该mon" class="headerlink" title="1、移除该mon"></a>1、移除该mon</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph mon remove node1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="2、清理该mon的文件"><a href="#2、清理该mon的文件" class="headerlink" title="2、清理该mon的文件"></a>2、清理该mon的文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">rm</span> -rf /var/lib/ceph/mon/*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="2、清理该mon的文件"><a href="#2、清理该mon的文件" class="headerlink" title="2、清理该mon的文件"></a>2、清理该mon的文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ rm -rf /var/lib/ceph/mon/*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kong62/article/details/76998969">https://blog.csdn.net/kong62/article/details/76998969</a></p>
 <h2 id="六、Error-EPERM-pool-deletion-is-disabled-you-must-first-set-the-mon-allow-pool-delete-config-option-to-true-before-you-can-destroy-a-pool"><a href="#六、Error-EPERM-pool-deletion-is-disabled-you-must-first-set-the-mon-allow-pool-delete-config-option-to-true-before-you-can-destroy-a-pool" class="headerlink" title="六、Error EPERM: pool deletion is disabled; you must first set the mon_allow_pool_delete config option to true before you can destroy a pool"></a>六、Error EPERM: pool deletion is disabled; you must first set the mon_allow_pool_delete config option to true before you can destroy a pool</h2><p>其实执行代码： ceph osd pool delete ecpool ecpool –yes-i-really-really-mean-it 就可以完成删除，但是此时有时候会报错：</p>
 <p>这是由于没有配置mon节点的 mon_allow_pool_delete 字段所致，解决办法就是到mon节点进行相应的设置。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h3 id="1、打开mon节点的配置文件"><a href="#1、打开mon节点的配置文件" class="headerlink" title="1、打开mon节点的配置文件"></a>1、打开mon节点的配置文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ <span class="token function">vi</span> /etc/ceph/ceph.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h3 id="1、打开mon节点的配置文件"><a href="#1、打开mon节点的配置文件" class="headerlink" title="1、打开mon节点的配置文件"></a>1、打开mon节点的配置文件</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ vi /etc/ceph/ceph.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="2、在配置文件中添加如下内容"><a href="#2、在配置文件中添加如下内容" class="headerlink" title="2、在配置文件中添加如下内容"></a>2、在配置文件中添加如下内容</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ mon_allow_pool_delete <span class="token operator">=</span> <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="2、在配置文件中添加如下内容"><a href="#2、在配置文件中添加如下内容" class="headerlink" title="2、在配置文件中添加如下内容"></a>2、在配置文件中添加如下内容</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ mon_allow_pool_delete = true<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h3 id="3、重启所有节点ceph-mon，osd服务："><a href="#3、重启所有节点ceph-mon，osd服务：" class="headerlink" title="3、重启所有节点ceph-mon，osd服务："></a>3、重启所有节点ceph-mon，osd服务：</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ systemctl restart ceph-mon.target<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -665,64 +665,64 @@ un-blacklisting <span class="token number">192.168</span>.xxx.111:0/1135656048<s
 
 <p>yum install ceph-deploy.noarch -y mkdir ceph-cluster cd ceph-cluster/</p>
 <p>ceph-deploy new k8s-ceph-0001 k8s-ceph-0002 k8s-ceph-0003 ceph-deploy mon create-initial ceph-deploy admin k8s-ceph-0001 k8s-ceph-0002 k8s-ceph-0003 ceph-deploy mgr create k8s-ceph-0001 k8s-ceph-0002 k8s-ceph-0003</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="一、ceph-conf文件配置"><a href="#一、ceph-conf文件配置" class="headerlink" title="一、ceph.conf文件配置"></a>一、ceph.conf文件配置</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token punctuation">[</span>global<span class="token punctuation">]</span>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="一、ceph-conf文件配置"><a href="#一、ceph-conf文件配置" class="headerlink" title="一、ceph.conf文件配置"></a>一、ceph.conf文件配置</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">[global]
  
-fsid <span class="token operator">=</span> 1235bE62-8ae1-difg-893a-892a675757c6
+fsid = 1235bE62-8ae1-difg-893a-892a675757c6
  
-mon_initial_members <span class="token operator">=</span> ceph-node01,ceph-node02,ceph-node03
+mon_initial_members = ceph-node01,ceph-node02,ceph-node03
  
-mon_host <span class="token operator">=</span> <span class="token number">192.168</span>.170.11,192.168.170.12,192.168.170.13
+mon_host = 192.168.170.11,192.168.170.12,192.168.170.13
  
-auth_cluster_required <span class="token operator">=</span> cephx
+auth_cluster_required = cephx
  
-auth_service_required <span class="token operator">=</span> cephx
+auth_service_required = cephx
  
-auth_client_required <span class="token operator">=</span> cephx
+auth_client_required = cephx
  
-public_network <span class="token operator">=</span> <span class="token number">192.168</span>.170.0/22 <span class="token comment">#管理网络</span>
+public_network = 192.168.170.0/22 #管理网络
  
-cluster_network <span class="token operator">=</span> <span class="token number">192.168</span>.180.0/22 <span class="token comment">#集群网络</span>
+cluster_network = 192.168.180.0/22 #集群网络
  
-mon_pg_warn_max_per_osd <span class="token operator">=</span> <span class="token number">1000</span> <span class="token comment">#每个osd上pg数量警告值，这个可以根据具体规划来设定</span>
+mon_pg_warn_max_per_osd = 1000 #每个osd上pg数量警告值，这个可以根据具体规划来设定
  
-osd_pool_default_size <span class="token operator">=</span> <span class="token number">3</span> <span class="token comment">#默认副本数为3</span>
+osd_pool_default_size = 3 #默认副本数为3
  
-osd_pool_default_min_size <span class="token operator">=</span> <span class="token number">2</span> <span class="token comment">#最小副本数为2，也就是只能坏一个</span>
+osd_pool_default_min_size = 2 #最小副本数为2，也就是只能坏一个
  
-mon_osd_full_ratio <span class="token operator">=</span> .85 <span class="token comment">#存储使用率达到85%将不再提供数据存储</span>
+mon_osd_full_ratio = .85 #存储使用率达到85%将不再提供数据存储
  
-mon_osd_nearfull_ratio <span class="token operator">=</span> .70 <span class="token comment">#存储使用率达到70%集群将会warn状态</span>
+mon_osd_nearfull_ratio = .70 #存储使用率达到70%集群将会warn状态
  
-osd_deep_scrub_randomize_ratio <span class="token operator">=</span> <span class="token number">0.01</span> <span class="token comment">#随机深度清洗概率,值越大，随机深度清洗概率越高,太高会影响业务</span>
+osd_deep_scrub_randomize_ratio = 0.01 #随机深度清洗概率,值越大，随机深度清洗概率越高,太高会影响业务
  
-<span class="token punctuation">[</span>osd<span class="token punctuation">]</span>
+[osd]
  
-osd_max_write_size <span class="token operator">=</span> <span class="token number">1024</span> <span class="token comment">#默认90M，一次写操作最小值</span>
+osd_max_write_size = 1024 #默认90M，一次写操作最小值
  
-osd_recovery_op_priority <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment">#默认为10, 1-63 osd修复操作的优先级, 。值越小，优先级越低</span>
+osd_recovery_op_priority = 1 #默认为10, 1-63 osd修复操作的优先级, 。值越小，优先级越低
  
-osd_recovery_max_active <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment">#限定每个osd上同时有多少个pg可以同时进行recover</span>
+osd_recovery_max_active = 1 #限定每个osd上同时有多少个pg可以同时进行recover
  
-osd_recovery_max_single_start <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment"># 和osd_recovery_max_active一起使用，要理解其含义。假设我们配置osd_recovery_max_single_start为1，osd_recovery_max_active为3，那么，这意味着OSD在某个时刻会为一个PG启动一个恢复操作，而且最多可以有三个恢复操作同时处于活动状态。</span>
+osd_recovery_max_single_start = 1 # 和osd_recovery_max_active一起使用，要理解其含义。假设我们配置osd_recovery_max_single_start为1，osd_recovery_max_active为3，那么，这意味着OSD在某个时刻会为一个PG启动一个恢复操作，而且最多可以有三个恢复操作同时处于活动状态。
  
-osd_recovery_max_chunk <span class="token operator">=</span> <span class="token number">1048576</span> <span class="token comment">#默认为8388608, 设置恢复数据块的大小，以防网络阻塞</span>
+osd_recovery_max_chunk = 1048576 #默认为8388608, 设置恢复数据块的大小，以防网络阻塞
  
-osd_recovery_threads <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment">#恢复数据所需的线程数</span>
+osd_recovery_threads = 1 #恢复数据所需的线程数
  
-osd_max_backfills <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment">#集群故障后,最大backfill数为1，太大会影响业务</span>
+osd_max_backfills = 1 #集群故障后,最大backfill数为1，太大会影响业务
  
-osd_scrub_begin_hour <span class="token operator">=</span> <span class="token number">22</span> <span class="token comment">#清洗开始时间为晚上22点</span>
+osd_scrub_begin_hour = 22 #清洗开始时间为晚上22点
  
-osd_scrub_end_hour <span class="token operator">=</span> <span class="token number">7</span> <span class="token comment">#清洗结束时间为早上7点</span>
+osd_scrub_end_hour = 7 #清洗结束时间为早上7点
  
-osd_recovery_sleep <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment">#默认为0，recovery的时间间隔，会影响recovery时常，如果recovery导致业务不正常，可以调大该值，增加时间间隔</span>
+osd_recovery_sleep = 0 #默认为0，recovery的时间间隔，会影响recovery时常，如果recovery导致业务不正常，可以调大该值，增加时间间隔
  
-osd_crush_update_on_start <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token comment"># 新加的osd会up/in,但并不会更新crushmap，prepare+active期间不会导致数据迁移</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+osd_crush_update_on_start = false # 新加的osd会up/in,但并不会更新crushmap，prepare+active期间不会导致数据迁移<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h1 id="一、pg-num和pgp-num概念"><a href="#一、pg-num和pgp-num概念" class="headerlink" title="一、pg_num和pgp_num概念"></a>一、pg_num和pgp_num概念</h1><p>pg_num：存储池的目录个数 pgp_num：pg可用的osd排列组合数量</p>
 <h3 id="1、仅增大pg-num"><a href="#1、仅增大pg-num" class="headerlink" title="1、仅增大pg_num"></a>1、仅增大pg_num</h3><p>因为pgp_num没变，pg的osd组合仍只能从当前pgp_num种组合里面挑选，导致新增的pg和旧pg会有重复的osd组合，该现象称之为分裂；此时pg和osd的映射没有变</p>
 <h3 id="2、继续增大pgp-num，使其等于pg-num"><a href="#2、继续增大pgp-num，使其等于pg-num" class="headerlink" title="2、继续增大pgp_num，使其等于pg_num"></a>2、继续增大pgp_num，使其等于pg_num</h3><p>旧pg没有变化，但新增pg的osd组合发生变化，即开始重新分布</p>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h3 id="一、查看mon节点上所有启动的ceph服务"><a href="#一、查看mon节点上所有启动的ceph服务" class="headerlink" title="一、查看mon节点上所有启动的ceph服务"></a>一、查看mon节点上所有启动的ceph服务</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ systemctl list-units --type<span class="token operator">=</span>service<span class="token operator">|</span><span class="token function">grep</span> ceph<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h3 id="一、查看mon节点上所有启动的ceph服务"><a href="#一、查看mon节点上所有启动的ceph服务" class="headerlink" title="一、查看mon节点上所有启动的ceph服务"></a>一、查看mon节点上所有启动的ceph服务</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ systemctl list-units --type=service|grep ceph<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h3 id="二、打印存储池列表"><a href="#二、打印存储池列表" class="headerlink" title="二、打印存储池列表"></a>二、打印存储池列表</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ ceph osd lspools<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -840,32 +840,48 @@ osd_crush_update_on_start <span class="token operator">=</span> <span class="tok
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/12/31/hello-world/">
+                <a href="/2022/01/04/go-pei-zhi-wen-jian-jie-xi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Go 配置文件解析">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Go 配置文件解析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Go viper的使用
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-31
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-04
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            xxdeye
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/viper/" class="post-category">
+                                    viper
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -1108,7 +1124,7 @@ osd_crush_update_on_start <span class="token operator">=</span> <span class="tok
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2021</span>
+                <span id="year">2019-2022</span>
             
             <a href="/about" target="_blank">xxdeye</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

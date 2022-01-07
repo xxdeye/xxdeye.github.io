@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Rancher2部署, 夜">
-    <meta name="description" content="Rancher2部署">
+    <meta name="keywords" content="Git使用手册, 夜">
+    <meta name="description" content="Git用法Git cleangit clean -n：是一次clean的演习, 告诉你哪些文件会被删除. 记住他不会真正的删除文件, 只是一个提醒
+git clean -f：删除当前目录下所有没有track过的文件. 他不会删除.gitig">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Rancher2部署 | 夜</title>
+    <title>Git使用手册 | 夜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -312,12 +313,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Rancher2部署</h1>
+                    <h1 class="description center-align post-title">Git使用手册</h1>
                 </div>
             </div>
         </div>
@@ -433,12 +434,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Rancher/">
-                                <span class="chip bg-color">Rancher</span>
-                            </a>
-                        
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
+                            <a href="/tags/Git/">
+                                <span class="chip bg-color">Git</span>
                             </a>
                         
                     </div>
@@ -449,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Rancher/" class="post-category">
-                                Rancher
+                            <a href="/categories/Git/" class="post-category">
+                                Git
                             </a>
                         
                     </div>
@@ -462,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-12-28
+                    2022-01-06
                 </div>
                 
 
@@ -486,94 +483,25 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="一、服务端"><a href="#一、服务端" class="headerlink" title="一、服务端"></a>一、服务端</h1><h2 id="部署k3s"><a href="#部署k3s" class="headerlink" title="部署k3s"></a>部署k3s</h2><h3 id="单点"><a href="#单点" class="headerlink" title="单点"></a>单点</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ curl -sfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
-$ cp /etc/rancher/k3s/k3s.yaml  ~/.kube/config
-$ kubectl get pods --all-namespaces<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+                <h1 id="Git用法"><a href="#Git用法" class="headerlink" title="Git用法"></a>Git用法</h1><h2 id="Git-clean"><a href="#Git-clean" class="headerlink" title="Git clean"></a>Git clean</h2><p><code>git clean -n</code>：是一次clean的演习, 告诉你哪些文件会被删除. 记住他不会真正的删除文件, 只是一个提醒</p>
+<p><code>git clean -f</code>：删除当前目录下所有没有track过的文件. 他不会删除.gitignore文件里面指定的文件夹和文件, 不管这些文件有没有被track过</p>
+<p><code>git clean -f &lt;path&gt;</code>：删除指定路径下的没有被track过的文件</p>
+<p><code>git clean -df</code>：删除当前目录下没有被track过的文件和文件夹</p>
+<p><code>git clean -xf</code>：删除当前目录下所有没有track过的文件. 不管他是否是.gitignore文件里面指定的文件夹和文件</p>
+<h3 id="常见使用"><a href="#常见使用" class="headerlink" title="常见使用"></a>常见使用</h3><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">git reset --hard
+git clean -df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="多点"><a href="#多点" class="headerlink" title="多点"></a>多点</h3><p>在其他node上执行以下命令，<code>K3S_TOKEN</code> 在第一台服务器的<code>/var/lib/rancher/k3s/server/node-token</code>路径下</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行后, 工作目录和缓存区回到最近一次commit时候一摸一样的状态，git status会告诉你这是一个干净的工作目录, 又是一个新的开始了！</p>
+<h1 id="The-following-untracked-working-tree-files-would-be-overwritten-by-merge"><a href="#The-following-untracked-working-tree-files-would-be-overwritten-by-merge" class="headerlink" title="The following untracked working tree files would be overwritten by merge"></a>The following untracked working tree files would be overwritten by merge</h1><p>团队其他成员修改了某文件并已提交入库，你在pull之前修改了本地该文件，等你修改完代码再pull时，会报这个错</p>
+<h2 id="保留修改"><a href="#保留修改" class="headerlink" title="保留修改"></a>保留修改</h2><p>执行以下三条命令</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">git stash #封存修改
+git pull origin master 
+git stash pop #把修改还原<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="部署rancher-server"><a href="#部署rancher-server" class="headerlink" title="部署rancher server"></a>部署rancher server</h2><h3 id="添加-Helm-Chart-仓库"><a href="#添加-Helm-Chart-仓库" class="headerlink" title="添加 Helm Chart 仓库"></a>添加 Helm Chart 仓库</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ helm repo add rancher-stable http://rancher-mirror.oss-cn-beijing.aliyuncs.com/server-charts/stable<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="为-Rancher-创建-Namespace"><a href="#为-Rancher-创建-Namespace" class="headerlink" title="为 Rancher 创建 Namespace"></a>为 Rancher 创建 Namespace</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl create namespace cattle-system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="安装cert-manager"><a href="#安装cert-manager" class="headerlink" title="安装cert-manager"></a>安装cert-manager</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"># 在升级Helm chart之前升级CRD资源
-$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
-# 添加 Jetstack Helm 仓库
-$ helm repo add jetstack [https://charts.jetstack.io](https://charts.jetstack.io/)
-# 更新本地 Helm chart 仓库缓存
-$ helm repo update
-# ingress.tls.source不写默认是rancher自签证书，签证域名用的是hostname填的
-# replicas设置为 Rancher 部署所使用的复制数量默认为 3
-# --version 指定版本
-$ helm install rancher rancher-stable/rancher \
- --namespace cattle-system \
- --set hostname=rancher.my.xxx \
- --set replicas=1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="等待-Rancher-运行"><a href="#等待-Rancher-运行" class="headerlink" title="等待 Rancher 运行"></a>等待 Rancher 运行</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl -n cattle-system rollout status deploy/rancher<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>用所填的<code>hostname</code>访问，如：<code>rancher.my.xxx</code></p>
-<h1 id="二、代理端"><a href="#二、代理端" class="headerlink" title="二、代理端"></a>二、代理端</h1><h2 id="部署k8s"><a href="#部署k8s" class="headerlink" title="部署k8s"></a>部署k8s</h2><h3 id="设置基础环境"><a href="#设置基础环境" class="headerlink" title="设置基础环境"></a>设置基础环境</h3><p>关掉防火墙，selinux</p>
-<p>禁用虚拟内存：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ swapoff -a 
-$ sed -ri 's/.*swap.*/#&amp;/' /etc/fstab <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum -y  docker 
-$ vi /etc/docker/daemon.json
-{ 
-"registry-mirrors": ["https://registry.docker-cn.com"], 
-"exec-opt": ["native.cgroupdriver=systemd"] 
-}
-$ systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h3><p>新增repo包</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>指定版本安装（rancher目前貌似不支持1.22版本以上的k8s）</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum install -y kubelet-1.21.3 kubeadm-1.21.3 kubectl-1.21.3
-$ systemctl enable kubelet;systemctl start kubelet 　<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>kubeadm安装k8s（单节点部署）</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubeadm init --kubernetes-version=1.21.3  --apiserver-advertise-address=本机ip --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>执行完成后，根据提示执行</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ mkdir -p $HOME/.kube
-$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-$ sudo chown $(id -u):$(id -g) $HOME/.kube/config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="添加cni"><a href="#添加cni" class="headerlink" title="添加cni"></a>添加cni</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ wget https://docs.projectcalico.org/manifests/calico.yaml
-$ vi calico.yaml
-    - name: IP_AUTODETECTION_METHOD  # DaemonSet中添加该环境变量
-      value: interface=ens160  
-$ kubectl apply -f calico.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="污点"><a href="#污点" class="headerlink" title="污点"></a>污点</h3><p>单点，所以要把master污点去掉</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl describe node 本机 
-$ kubectl taint node 本机 node-role.kubernetes.io/master:NoSchedule-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="dns解析"><a href="#dns解析" class="headerlink" title="dns解析"></a>dns解析</h2><p>不走dns域名解析可以用本地解析</p>
-<h3 id="在代理端修改hosts"><a href="#在代理端修改hosts" class="headerlink" title="在代理端修改hosts"></a>在代理端修改hosts</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ vi /etc/hosts
-# 服务端ip地址
-192.168.x.x rancher.my.xxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="修改coredns-configmap"><a href="#修改coredns-configmap" class="headerlink" title="修改coredns configmap"></a>修改coredns configmap</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl edit cm coredns -n kube-system 
-hosts {
-    192.168.x.x rancher.my.xxx 
-    fallthrougu 
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl delete pods  coredns-xxx -n kube-system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-
+<p><code>git stash</code>：备份当前工作区内容，从最近的一次提交中读取相关内容，让工作区保证和上次提交的内容一致。同时，将当前工作区内容保存到Git栈中<br><code>git pull</code>：拉取服务器上当前分支代码<br><code>git stash pop</code>：从Git栈中读取最近一次保存的内容，恢复工作区相关内容。同时，用户可能进行多次stash操作，需要保证后stash的最先被取到，所以用栈（先进后出）来管理；pop取栈顶的内容并恢复<br><code>git stash list</code>：显示Git栈内的所有备份，可以利用这个列表来决定从那个地方恢复。<br><code>git stash clear</code>：清空Git栈</p>
+<h2 id="废弃本地修改"><a href="#废弃本地修改" class="headerlink" title="废弃本地修改"></a>废弃本地修改</h2><p>核心思想就是版本回退，放弃本地修改</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">git reset --hard 
+git pull origin master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 
                 
@@ -601,7 +529,7 @@ hosts {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2021/12/28/rancher2-da-jian/">http://xxdeye.github.io/2021/12/28/rancher2-da-jian/</a>
+                    <a href="http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/">http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -639,12 +567,8 @@ hosts {
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Rancher/">
-                                    <span class="chip bg-color">Rancher</span>
-                                </a>
-                            
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
+                                <a href="/tags/Git/">
+                                    <span class="chip bg-color">Git</span>
                                 </a>
                             
                         </div>
@@ -694,31 +618,31 @@ hosts {
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/12/29/es-qi-dong-bao-cuo/">
+                <a href="/2022/01/06/kubeadm-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="ES启动报错">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="kubeadm部署">
                         
-                        <span class="card-title">ES启动报错</span>
+                        <span class="card-title">kubeadm部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Elasticsearch启动报错问题处理
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-29
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-06
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Elasticsearch/" class="post-category">
-                                    Elasticsearch
+                            <a href="/categories/Kubernetes/" class="post-category">
+                                    Kubernetes
                                 </a>
                             
                             
@@ -728,8 +652,8 @@ hosts {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Elasticsearch/">
-                        <span class="chip bg-color">Elasticsearch</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>
@@ -743,29 +667,37 @@ hosts {
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/12/27/wen-zhang-ce-shi/">
+                <a href="/2022/01/04/go-pei-zhi-wen-jian-jie-xi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="文章测试">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Go 配置文件解析">
                         
-                        <span class="card-title">文章测试</span>
+                        <span class="card-title">Go 配置文件解析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Go viper的使用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-04
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            xxdeye
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/viper/" class="post-category">
+                                    viper
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -773,12 +705,8 @@ hosts {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/go/">
-                        <span class="chip bg-color">go</span>
-                    </a>
-                    
-                    <a href="/tags/python/">
-                        <span class="chip bg-color">python</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>
@@ -974,7 +902,7 @@ hosts {
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2021</span>
+                <span id="year">2019-2022</span>
             
             <a href="/about" target="_blank">xxdeye</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

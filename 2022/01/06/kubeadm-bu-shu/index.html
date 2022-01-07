@@ -4,8 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="ES启动报错, 夜">
-    <meta name="description" content="Elasticsearch启动报错问题处理">
+    <meta name="keywords" content="kubeadm部署, 夜">
+    <meta name="description" content="基础环境基础配置# 关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+# 关闭selinux
+sed -i &#39;s/enforcing/disabled/&#39; /etc/sel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>ES启动报错 | 夜</title>
+    <title>kubeadm部署 | 夜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -312,12 +316,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">ES启动报错</h1>
+                    <h1 class="description center-align post-title">kubeadm部署</h1>
                 </div>
             </div>
         </div>
@@ -433,8 +437,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Elasticsearch/">
-                                <span class="chip bg-color">Elasticsearch</span>
+                            <a href="/tags/Kubernetes/">
+                                <span class="chip bg-color">Kubernetes</span>
                             </a>
                         
                     </div>
@@ -445,8 +449,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Elasticsearch/" class="post-category">
-                                Elasticsearch
+                            <a href="/categories/Kubernetes/" class="post-category">
+                                Kubernetes
                             </a>
                         
                     </div>
@@ -458,7 +462,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-12-29
+                    2022-01-06
                 </div>
                 
 
@@ -482,36 +486,114 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="错误信息"><a href="#错误信息" class="headerlink" title="错误信息"></a>错误信息</h1><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ERROR: [2] bootstrap checks failed
+                <h1 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h1><h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh"># 关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+# 关闭selinux
+sed -i 's/enforcing/disabled/' /etc/selinux/config  # 永久
+setenforce 0  # 临时<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-[1]: memory locking requested for elasticsearch process but memory is not locked
+<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+yum -y install docker-ce
+systemctl enable docker &amp;&amp; systemctl start docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-[2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="安装Kubernetes"><a href="#安装Kubernetes" class="headerlink" title="安装Kubernetes"></a>安装Kubernetes</h1><h2 id="添加阿里云YUM的软件源"><a href="#添加阿里云YUM的软件源" class="headerlink" title="添加阿里云YUM的软件源"></a>添加阿里云YUM的软件源</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h1 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h1><h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">[1]: memory locking requested for elasticsearch process but memory is not locked<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="安装kubeadm，kubelet和kubectl"><a href="#安装kubeadm，kubelet和kubectl" class="headerlink" title="安装kubeadm，kubelet和kubectl"></a>安装kubeadm，kubelet和kubectl</h2><p>这里安装的是最新版本</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">yum -y install kubelet-1.23.1 kubeadm-1.23.1 kubectl-1.23.1
+systemctl enable kubelet<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="官网的解释"><a href="#官网的解释" class="headerlink" title="官网的解释"></a>官网的解释</h3><p>发生系统swapping的时候ES节点的性能会非常差，也会影响节点的稳定性。所以要不惜一切代价来避免swapping。swapping会导致Java</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>去除文件句柄限制</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$vim /etc/security/limits.conf
-# End of file
+<h2 id="部署Kubernetes-Master"><a href="#部署Kubernetes-Master" class="headerlink" title="部署Kubernetes Master"></a>部署Kubernetes Master</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubeadm init \
+--apiserver-advertise-address=10.0.4.2 \
+--image-repository registry.aliyuncs.com/google_containers \
+--kubernetes-version v1.23.1 \
+--service-cidr=10.1.0.0/16 \
+--pod-network-cidr=10.244.0.0/16<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-*       soft   nofile   102400
-*       hard   nofile   102400
-* soft core 0
-* hard core 0
+<p>结果会有一串token</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">Your Kubernetes control-plane has initialized successfully!
 
-*       soft memlock unlimited  # 新增
-*       hard memlock unlimited  # 新增<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+To start using your cluster, you need to run the following as a regular user:
 
-<h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">[2]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-<p><code>vm.max_map_count</code>太小</p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>max_map_count文件包含限制一个进程可以拥有的VMA(虚拟内存区域)的数量</p>
-<p>调整<code>max_map_count</code>大小</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$vim /etc/sysctl.conf 
-vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+Alternatively, if you are the root user, you can run:
 
-<p>随后执行<code>/sbin/sysctl -p</code>生效</p>
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+# node 加入主节点执行这条
+kubeadm join 10.0.4.2:6443 --token xxxxxx.1i07i2f7nrfdcqok \
+        --discovery-token-ca-cert-hash sha256:xxxxx86c3bc214140dece61119c56a46501fb7374cd6b06acca698c7d1bxxxxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>根据提示执行</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>命令补全</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">source &lt;(kubectl completion bash) 
+echo "source &lt;(kubectl completion bash)" &gt;&gt; ~/.bashrc
+#或
+alias k=kubectl
+source &lt;(kubectl completion bash | sed s/kubectl/k/g)
+alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="加入Kubernetes-Node"><a href="#加入Kubernetes-Node" class="headerlink" title="加入Kubernetes Node"></a>加入Kubernetes Node</h2><p>在从节点上执行这条命令</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubeadm join 10.0.4.2:6443 --token xxxxxx.1i07i2f7nrfdcqok \
+        --discovery-token-ca-cert-hash sha256:xxxxx86c3bc214140dece61119c56a46501fb7374cd6b06acca698c7d1bxxxxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="安装pod网络插件"><a href="#安装pod网络插件" class="headerlink" title="安装pod网络插件"></a>安装pod网络插件</h2><p>这里用的CNI是calico</p>
+<p>文档：<a target="_blank" rel="noopener" href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart">https://docs.projectcalico.org/getting-started/kubernetes/quickstart</a></p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">wget https://docs.projectcalico.org/manifests/calico.yaml
+kubectl apply -f calico.yaml
+kubectl get pods -n kube-system<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="安装Dashboard"><a href="#安装Dashboard" class="headerlink" title="安装Dashboard"></a>安装Dashboard</h1><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.3/aio/deploy/recommended.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>修改Svc为NodePod</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">vi recommended.yaml
+...
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30001  # 这里需要修改
+  selector:
+    k8s-app: kubernetes-dashboard
+  type: NodePort  # 这里需要修改
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">~]# kubectl apply -f recommended.yaml
+~]# kubectl get pods -n kubernetes-dashboard
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-6b4884c9d5-gl8nr   1/1     Running   0          1m
+kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>引用：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48711696/article/details/114805048">https://blog.csdn.net/weixin_48711696/article/details/114805048</a></p>
 
                 
             </div>
@@ -538,7 +620,7 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2021/12/29/es-qi-dong-bao-cuo/">http://xxdeye.github.io/2021/12/29/es-qi-dong-bao-cuo/</a>
+                    <a href="http://xxdeye.github.io/2022/01/06/kubeadm-bu-shu/">http://xxdeye.github.io/2022/01/06/kubeadm-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -576,8 +658,8 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Elasticsearch/">
-                                    <span class="chip bg-color">Elasticsearch</span>
+                                <a href="/tags/Kubernetes/">
+                                    <span class="chip bg-color">Kubernetes</span>
                                 </a>
                             
                         </div>
@@ -627,31 +709,31 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/12/30/ceph-bu-shu/">
+                <a href="/2022/01/07/kind-kuai-su-da-jian-kubernetes/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="CEPH部署">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="kind快速搭建Kubernetes">
                         
-                        <span class="card-title">CEPH部署</span>
+                        <span class="card-title">kind快速搭建Kubernetes</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Ceph部署流程
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-30
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-07
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Ceph/" class="post-category">
-                                    Ceph
+                            <a href="/categories/Kubernetes/" class="post-category">
+                                    Kubernetes
                                 </a>
                             
                             
@@ -661,8 +743,12 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Ceph/">
-                        <span class="chip bg-color">Ceph</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                    <a href="/tags/kind/">
+                        <span class="chip bg-color">kind</span>
                     </a>
                     
                 </div>
@@ -676,31 +762,31 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/12/28/rancher2-bu-shu/">
+                <a href="/2022/01/06/git-shi-yong-shou-ce/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Rancher2部署">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Git使用手册">
                         
-                        <span class="card-title">Rancher2部署</span>
+                        <span class="card-title">Git使用手册</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Rancher2部署
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Rancher/" class="post-category">
-                                    Rancher
+                            <a href="/categories/Git/" class="post-category">
+                                    Git
                                 </a>
                             
                             
@@ -710,12 +796,8 @@ vm.max_map_count=262144 # 新增<span aria-hidden="true" class="line-numbers-row
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Rancher/">
-                        <span class="chip bg-color">Rancher</span>
-                    </a>
-                    
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Git/">
+                        <span class="chip bg-color">Git</span>
                     </a>
                     
                 </div>

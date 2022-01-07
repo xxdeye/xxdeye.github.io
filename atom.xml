@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2021-12-31T03:03:31.017Z</updated>
+  <updated>2022-01-07T07:23:17.408Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -17,23 +17,106 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://xxdeye.github.io/2021/12/31/hello-world/"/>
-    <id>http://xxdeye.github.io/2021/12/31/hello-world/</id>
-    <published>2021-12-31T03:03:31.016Z</published>
-    <updated>2021-12-31T03:03:31.017Z</updated>
+    <title>kind快速搭建Kubernetes</title>
+    <link href="http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/"/>
+    <id>http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/</id>
+    <published>2022-01-07T06:14:36.000Z</published>
+    <updated>2022-01-07T07:23:17.408Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+    <summary type="html">&lt;h1 id=&quot;kind快速搭建Kubernetes&quot;&gt;&lt;a href=&quot;#kind快速搭建Kubernetes&quot; class=&quot;headerlink&quot;</summary>
         
       
     
     
     
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
+    
+    <category term="kind" scheme="http://xxdeye.github.io/tags/kind/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubeadm部署</title>
+    <link href="http://xxdeye.github.io/2022/01/06/kubeadm-bu-shu/"/>
+    <id>http://xxdeye.github.io/2022/01/06/kubeadm-bu-shu/</id>
+    <published>2022-01-06T14:03:06.000Z</published>
+    <updated>2022-01-06T14:35:47.371Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;基础环境&quot;&gt;&lt;a href=&quot;#基础环境&quot; class=&quot;headerlink&quot; title=&quot;基础环境&quot;&gt;&lt;/a&gt;基础环境&lt;/h1&gt;&lt;h2 id=&quot;基础配置&quot;&gt;&lt;a href=&quot;#基础配置&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git使用手册</title>
+    <link href="http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/"/>
+    <id>http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/</id>
+    <published>2022-01-06T13:55:07.000Z</published>
+    <updated>2022-01-06T13:52:48.787Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Git用法&quot;&gt;&lt;a href=&quot;#Git用法&quot; class=&quot;headerlink&quot; title=&quot;Git用法&quot;&gt;&lt;/a&gt;Git用法&lt;/h1&gt;&lt;h2 id=&quot;Git-clean&quot;&gt;&lt;a href=&quot;#Git-clean&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Git" scheme="http://xxdeye.github.io/categories/Git/"/>
+    
+    
+    <category term="Git" scheme="http://xxdeye.github.io/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go 配置文件解析</title>
+    <link href="http://xxdeye.github.io/2022/01/04/go-pei-zhi-wen-jian-jie-xi/"/>
+    <id>http://xxdeye.github.io/2022/01/04/go-pei-zhi-wen-jian-jie-xi/</id>
+    <published>2022-01-04T13:36:57.000Z</published>
+    <updated>2022-01-06T14:07:56.065Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;配置文件解析&quot;&gt;&lt;a href=&quot;#配置文件解析&quot; class=&quot;headerlink&quot; title=&quot;配置文件解析&quot;&gt;&lt;/a&gt;配置文件解析&lt;/h1&gt;&lt;pre class=&quot;line-numbers language-none&quot;&gt;&lt;code</summary>
+        
+      
+    
+    
+    
+    <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
+    
+    <category term="viper" scheme="http://xxdeye.github.io/categories/Go/viper/"/>
+    
+    
+    <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
     
   </entry>
   
@@ -89,10 +172,10 @@
   
   <entry>
     <title>Rancher2部署</title>
-    <link href="http://xxdeye.github.io/2021/12/28/rancher2-da-jian/"/>
-    <id>http://xxdeye.github.io/2021/12/28/rancher2-da-jian/</id>
+    <link href="http://xxdeye.github.io/2021/12/28/rancher2-bu-shu/"/>
+    <id>http://xxdeye.github.io/2021/12/28/rancher2-bu-shu/</id>
     <published>2021-12-28T14:38:57.000Z</published>
-    <updated>2021-12-31T06:17:37.590Z</updated>
+    <updated>2022-01-05T07:58:58.117Z</updated>
     
     
       
@@ -111,33 +194,6 @@
     <category term="Rancher" scheme="http://xxdeye.github.io/tags/Rancher/"/>
     
     <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>文章测试</title>
-    <link href="http://xxdeye.github.io/2021/12/27/wen-zhang-ce-shi/"/>
-    <id>http://xxdeye.github.io/2021/12/27/wen-zhang-ce-shi/</id>
-    <published>2021-12-27T14:13:17.000Z</published>
-    <updated>2021-12-31T03:03:31.024Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;奥术大师多&lt;/p&gt;
-&lt;p&gt;Asdasd&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-    <category term="go" scheme="http://xxdeye.github.io/tags/go/"/>
-    
-    <category term="python" scheme="http://xxdeye.github.io/tags/python/"/>
     
   </entry>
   
