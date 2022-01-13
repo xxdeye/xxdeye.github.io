@@ -4,10 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="kind快速搭建Kubernetes, 夜">
-    <meta name="description" content="kind快速搭建Kubernetes官方文档：https://kind.sigs.k8s.io/docs/user/quick-start/
-kind安装下载二进制文件
-curl -Lo ./kind https://kind.sigs.k">
+    <meta name="keywords" content="KeepAlive部署, 夜">
+    <meta name="description" content="一、主节点安装keepaliveyum -y install keepalived
+或者
+rpm包安装
+1.https://centos.pkgs.org/7/centos-x86_64/
+到rpm网站下载包net-snmp-libs-5.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +21,7 @@ curl -Lo ./kind https://kind.sigs.k">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>kind快速搭建Kubernetes | 夜</title>
+    <title>KeepAlive部署 | 夜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -314,12 +316,12 @@ curl -Lo ./kind https://kind.sigs.k">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">kind快速搭建Kubernetes</h1>
+                    <h1 class="description center-align post-title">KeepAlive部署</h1>
                 </div>
             </div>
         </div>
@@ -435,12 +437,8 @@ curl -Lo ./kind https://kind.sigs.k">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
-                            </a>
-                        
-                            <a href="/tags/kind/">
-                                <span class="chip bg-color">kind</span>
+                            <a href="/tags/KeepAlive/">
+                                <span class="chip bg-color">KeepAlive</span>
                             </a>
                         
                     </div>
@@ -451,8 +449,8 @@ curl -Lo ./kind https://kind.sigs.k">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Kubernetes/" class="post-category">
-                                Kubernetes
+                            <a href="/categories/KeepAlive/" class="post-category">
+                                KeepAlive
                             </a>
                         
                     </div>
@@ -464,7 +462,7 @@ curl -Lo ./kind https://kind.sigs.k">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-01-07
+                    2022-01-11
                 </div>
                 
 
@@ -488,111 +486,114 @@ curl -Lo ./kind https://kind.sigs.k">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="kind快速搭建Kubernetes"><a href="#kind快速搭建Kubernetes" class="headerlink" title="kind快速搭建Kubernetes"></a>kind快速搭建Kubernetes</h1><p>官方文档：<a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/docs/user/quick-start/">https://kind.sigs.k8s.io/docs/user/quick-start/</a></p>
-<h2 id="kind安装"><a href="#kind安装" class="headerlink" title="kind安装"></a>kind安装</h2><p>下载二进制文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
-chmod +x ./kind
-mv ./kind /usr/bin/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+                <h2 id="一、主节点"><a href="#一、主节点" class="headerlink" title="一、主节点"></a>一、主节点</h2><h3 id="安装keepalive"><a href="#安装keepalive" class="headerlink" title="安装keepalive"></a>安装keepalive</h3><p><code>yum -y install keepalived</code></p>
+<p>或者</p>
+<p>rpm包安装</p>
+<p>1.<a target="_blank" rel="noopener" href="https://centos.pkgs.org/7/centos-x86_64/">https://centos.pkgs.org/7/centos-x86_64/</a></p>
+<p>到rpm网站下载包<code>net-snmp-libs-5.7.2-49.el7.x86_64.rpm</code>，<code>net-snmp-agent-libs-5.7.2-49.el7.x86_64.rpm</code>，<code>keepalived-1.3.5-19.el7.x86_64.rpm</code></p>
+<pre class="line-numbers language-none"><code class="language-none">mkdir /tools
+rz -be 包
+rpm -ivh  --replacefiles net-snmp-libs-5.7.2-49.el7.x86_64.rpm
+rpm -ivh  --replacefiles net-snmp-agent-libs-5.7.2-49.el7.x86_64.rpm 
+rpm -ivh  --replacefiles keepalived-1.3.5-19.el7.x86_64.rpm <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="部署单点"><a href="#部署单点" class="headerlink" title="部署单点"></a>部署单点</h2><p>使用 kind 创建 Kubernetes 集群非常的方便，只需要一行命令即可</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind]# kind create cluster
-Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.21.1) 
+<h3 id="修改keepalive配置文件"><a href="#修改keepalive配置文件" class="headerlink" title="修改keepalive配置文件"></a>修改keepalive配置文件</h3><p>配置文件默认引用的<code>/etc/keepalived/keepalived.conf</code></p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/keepalived.conf
+! Configuration File for keepalived
+global_defs {
+ router_id nginx ##标识节点的字符串，通常为hostname
+}
+vrrp_script chk_nginx {
+ script "/etc/keepalived/nginx_check.sh"  ##执行脚本位置
+ interval 2 ##检测时间间隔
+ weight -5 ## 如果条件成立则权重减5（-5）
+ fall 3  ## 失败3次
+ rise 2  ## 尝试2次
+}
+## 定义虚拟路由 VI_1为自定义标识。
+vrrp_instance VI_1 {
+    state MASTER      ## 主节点为MASTER，备份节点为BACKUP
+    interface 网卡名(如：eth1)
+    mcast_src_ip 本机ip地址
+    virtual_router_id 51  ## 虚拟路由ID号，主从要一致
+    priority 100  ##优先级配置（0-254的值）
+    advert_int 2 ## 组播信息发送间隔，俩个节点必须配置一致，默认1s
+    authentication {
+        auth_type PASS
+        auth_pass 1111 ## 真实生产环境下对密码进行匹配
+    }
+    virtual_ipaddress {
+        虚拟ip地址(ping不通的同网段ip)/24    ## 虚拟ip(vip)，可以指定多个
+    }
+    track_script {
+      chk_nginx  ##vrrp_script 名
+    }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
- ✓ Preparing nodes   
- ✓ Writing configuration 
+<h3 id="新增判断脚本"><a href="#新增判断脚本" class="headerlink" title="新增判断脚本"></a>新增判断脚本</h3><p>这里用的是nginx判断脚本</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/nginx_check.sh
+#!/bin/bash
+A=`ps -C nginx --no-header |wc -l`
+if [ $A -eq 0 ];then
+    /tools/nginx/sbin/nginx 
+    sleep 2
+    if [ `ps -C nginx --no-header |wc -l` -eq 0 ];then
+        killall keepalived
+    fi
+fi
+[root@localhost ~]# chmod a+x nginx_check.sh  #要给脚本加执行权限<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
- ✓ Starting control-plane ️ 
- ✓ Installing CNI 
+<h3 id="启用keepalive"><a href="#启用keepalive" class="headerlink" title="启用keepalive"></a>启用keepalive</h3><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# systemctl start keepalived
+[root@localhost ~]# ps -ef|grep keepalive
+root       31173       1  0 14:28 ?        00:00:02 /usr/sbin/keepalived -D
+root       31174   31173  0 14:28 ?        00:00:02 /usr/sbin/keepalived -D
+root       31175   31173  0 14:28 ?        00:00:08 /usr/sbin/keepalived -D
+root       33249   29976  0 17:36 pts/1    00:00:00 grep --color=auto keepalive<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
- ✓ Installing StorageClass 
+<h2 id="二、从节点"><a href="#二、从节点" class="headerlink" title="二、从节点"></a>二、从节点</h2><h3 id="keepallive配置修改"><a href="#keepallive配置修改" class="headerlink" title="keepallive配置修改"></a>keepallive配置修改</h3><p>其他部分与主节点一致</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/keepalived.conf
+! Configuration File for keepalived
+global_defs {
+ router_id nginx ##标识节点的字符串，通常为hostname
+}
+vrrp_script chk_nginx {
+ script "/etc/keepalived/nginx_check.sh"  ##执行脚本位置
+ interval 2 ##检测时间间隔
+ weight -5 ## 如果条件成立则权重减5（-5）
+ fall 3  ## 失败3次
+ rise 2  ## 尝试2次
+}
+## 定义虚拟路由 VI_1为自定义标识。
+vrrp_instance VI_1 {
+    state BACKUP      ## 主节点为MASTER，备份节点为BACKUP
+    interface 网卡名(如：eth1)
+    mcast_src_ip 本机ip地址
+    virtual_router_id 51  ## 虚拟路由ID号，主从要一致
+    priority 99  ##优先级配置（0-254的值）
+    advert_int 2 ## 组播信息发送间隔，俩个节点必须配置一致，默认1s
+    authentication {
+        auth_type PASS
+        auth_pass 1111 ## 真实生产环境下对密码进行匹配
+    }
+    virtual_ipaddress {
+        虚拟ip地址(ping不通的同网段ip)/24    ## 虚拟ip(vip)，可以指定多个
+    }
+    track_script {
+      chk_nginx  ##vrrp_script 名
+    }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-                            Set kubectl context to "kind-kind"
-You can now use your cluster with:
+<h2 id="三、验证"><a href="#三、验证" class="headerlink" title="三、验证"></a>三、验证</h2><h3 id="查看虚拟ip"><a href="#查看虚拟ip" class="headerlink" title="查看虚拟ip"></a>查看虚拟ip</h3><p><code>ip a</code>查看vip是否已经有了</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# ip a
+...
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    ...
+    inet 192.168.112.139/24 brd 192.168.112.255 scope global noprefixroute dynamic ens33
+       ...
+    inet 192.168.112.141/24 scope global secondary ens33 #vip
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-kubectl cluster-info --context kind-kind
-
-Thanks for using kind! 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>删除集群</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind delete cluster<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>默认集群名称是 “kind”，如果要创建多个或者指定集群名称，可以指定 name 参数：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind create cluster --name<span class="token operator">=</span>k8s-cluster1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>删除集群</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind delete cluster --name<span class="token operator">=</span>k8s-cluster1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>查看kind容器</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind]# docker ps|grep kind
-289d71606549        kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6                "/usr/local/bin/en..."   3 minutes ago       Up 3 minutes        127.0.0.1:45171-&gt;6443/tcp   kind-control-plane<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>这时默认上下文是装好的kind</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">tools]# kubectl get pods -A
-NAMESPACE            NAME                                         READY   STATUS    RESTARTS   AGE
-kube-system          coredns-558bd4d5db-92lpw                     1/1     Running   0          12m
-kube-system          coredns-558bd4d5db-fzx8r                     1/1     Running   0          12m
-kube-system          etcd-kind-control-plane                      1/1     Running   0          12m
-kube-system          kindnet-p88hk                                1/1     Running   0          12m
-kube-system          kube-apiserver-kind-control-plane            1/1     Running   0          12m
-kube-system          kube-controller-manager-kind-control-plane   1/1     Running   0          12m
-kube-system          kube-proxy-bv9mn                             1/1     Running   0          12m
-kube-system          kube-scheduler-kind-control-plane            1/1     Running   0          12m
-local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Running   0          12m<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>查看已有上下文</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl config get-contexts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>修改上下文，切换集群</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl config  use-context kubernetes-admin@kubernetes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="多集群创建"><a href="#多集群创建" class="headerlink" title="多集群创建"></a>多集群创建</h2><p>node版本：<a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kind/releases">https://github.com/kubernetes-sigs/kind/releases</a></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Cluster
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kind.x<span class="token punctuation">-</span>k8s.io/v1alpha4
-<span class="token key atrule">nodes</span><span class="token punctuation">:</span>
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> control<span class="token punctuation">-</span>plane
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>部署引用yaml文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind create cluster --name kind --config  cluster.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="多集群创建-ingress"><a href="#多集群创建-ingress" class="headerlink" title="多集群创建-ingress"></a>多集群创建-ingress</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Cluster
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kind.x<span class="token punctuation">-</span>k8s.io/v1alpha4
-<span class="token key atrule">nodes</span><span class="token punctuation">:</span>
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> control<span class="token punctuation">-</span>plane
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-  <span class="token key atrule">kubeadmConfigPatches</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"</span>
-  <span class="token key atrule">extraPortMappings</span><span class="token punctuation">:</span>  
-  <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
-    <span class="token key atrule">hostPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
-    <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
-  <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">443</span>
-    <span class="token key atrule">hostPort</span><span class="token punctuation">:</span> <span class="token number">443</span>
-    <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>部署引用yaml文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind create cluster --name kind-ingress --config  cluster.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>部署ingress</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>引用：</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/weihanli/p/12831225.html">https://www.cnblogs.com/weihanli/p/12831225.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/392209413">https://zhuanlan.zhihu.com/p/392209413</a></p>
+<p>keepalived判断脚本是nginx的，kill掉nginx后，再次查看主节点和从节点vip是否存在</p>
 
                 
             </div>
@@ -619,7 +620,7 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/">http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/</a>
+                    <a href="http://xxdeye.github.io/2022/01/11/keepalived-bu-shu/">http://xxdeye.github.io/2022/01/11/keepalived-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -657,12 +658,8 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
-                                </a>
-                            
-                                <a href="/tags/kind/">
-                                    <span class="chip bg-color">kind</span>
+                                <a href="/tags/KeepAlive/">
+                                    <span class="chip bg-color">KeepAlive</span>
                                 </a>
                             
                         </div>
@@ -712,6 +709,59 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2022/01/13/go-cao-zuo-elasticsearch/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Go操作elasticsearch">
+                        
+                        <span class="card-title">Go操作elasticsearch</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/elastic/" class="post-category">
+                                    elastic
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2022/01/09/qt-chuang-kou-she-zhi/">
                     <div class="card-image">
                         
@@ -728,9 +778,9 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -738,55 +788,6 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                             
                         </span>
                     </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/01/06/kubeadm-bu-shu/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="kubeadm部署">
-                        
-                        <span class="card-title">kubeadm部署</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Kubernetes/" class="post-category">
-                                    Kubernetes
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
-                    </a>
-                    
                 </div>
                 
             </div>

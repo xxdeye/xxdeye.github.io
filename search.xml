@@ -4,6 +4,71 @@
   
     
     <entry>
+      <title>Go操作elasticsearch</title>
+      <link href="/2022/01/13/go-cao-zuo-elasticsearch/"/>
+      <url>/2022/01/13/go-cao-zuo-elasticsearch/</url>
+      
+        <content type="html"><![CDATA[<p>yin引用：<a href="https://blog.csdn.net/p1049990866/article/details/117254708">https://blog.csdn.net/p1049990866/article/details/117254708</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Go </category>
+          
+          <category> elastic </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>KeepAlive部署</title>
+      <link href="/2022/01/11/keepalived-bu-shu/"/>
+      <url>/2022/01/11/keepalived-bu-shu/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、主节点"><a href="#一、主节点" class="headerlink" title="一、主节点"></a>一、主节点</h2><h3 id="安装keepalive"><a href="#安装keepalive" class="headerlink" title="安装keepalive"></a>安装keepalive</h3><p><code>yum -y install keepalived</code></p><p>或者</p><p>rpm包安装</p><p>1.<a href="https://centos.pkgs.org/7/centos-x86_64/">https://centos.pkgs.org/7/centos-x86_64/</a></p><p>到rpm网站下载包<code>net-snmp-libs-5.7.2-49.el7.x86_64.rpm</code>，<code>net-snmp-agent-libs-5.7.2-49.el7.x86_64.rpm</code>，<code>keepalived-1.3.5-19.el7.x86_64.rpm</code></p><pre class="line-numbers language-none"><code class="language-none">mkdir /toolsrz -be 包rpm -ivh  --replacefiles net-snmp-libs-5.7.2-49.el7.x86_64.rpmrpm -ivh  --replacefiles net-snmp-agent-libs-5.7.2-49.el7.x86_64.rpm rpm -ivh  --replacefiles keepalived-1.3.5-19.el7.x86_64.rpm <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="修改keepalive配置文件"><a href="#修改keepalive配置文件" class="headerlink" title="修改keepalive配置文件"></a>修改keepalive配置文件</h3><p>配置文件默认引用的<code>/etc/keepalived/keepalived.conf</code></p><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/keepalived.conf! Configuration File for keepalivedglobal_defs { router_id nginx ##标识节点的字符串，通常为hostname}vrrp_script chk_nginx { script "/etc/keepalived/nginx_check.sh"  ##执行脚本位置 interval 2 ##检测时间间隔 weight -5 ## 如果条件成立则权重减5（-5） fall 3  ## 失败3次 rise 2  ## 尝试2次}## 定义虚拟路由 VI_1为自定义标识。vrrp_instance VI_1 {    state MASTER      ## 主节点为MASTER，备份节点为BACKUP    interface 网卡名(如：eth1)    mcast_src_ip 本机ip地址    virtual_router_id 51  ## 虚拟路由ID号，主从要一致    priority 100  ##优先级配置（0-254的值）    advert_int 2 ## 组播信息发送间隔，俩个节点必须配置一致，默认1s    authentication {        auth_type PASS        auth_pass 1111 ## 真实生产环境下对密码进行匹配    }    virtual_ipaddress {        虚拟ip地址(ping不通的同网段ip)/24    ## 虚拟ip(vip)，可以指定多个    }    track_script {      chk_nginx  ##vrrp_script 名    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="新增判断脚本"><a href="#新增判断脚本" class="headerlink" title="新增判断脚本"></a>新增判断脚本</h3><p>这里用的是nginx判断脚本</p><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/nginx_check.sh#!/bin/bashA=`ps -C nginx --no-header |wc -l`if [ $A -eq 0 ];then    /tools/nginx/sbin/nginx     sleep 2    if [ `ps -C nginx --no-header |wc -l` -eq 0 ];then        killall keepalived    fifi[root@localhost ~]# chmod a+x nginx_check.sh  #要给脚本加执行权限<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="启用keepalive"><a href="#启用keepalive" class="headerlink" title="启用keepalive"></a>启用keepalive</h3><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# systemctl start keepalived[root@localhost ~]# ps -ef|grep keepaliveroot       31173       1  0 14:28 ?        00:00:02 /usr/sbin/keepalived -Droot       31174   31173  0 14:28 ?        00:00:02 /usr/sbin/keepalived -Droot       31175   31173  0 14:28 ?        00:00:08 /usr/sbin/keepalived -Droot       33249   29976  0 17:36 pts/1    00:00:00 grep --color=auto keepalive<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="二、从节点"><a href="#二、从节点" class="headerlink" title="二、从节点"></a>二、从节点</h2><h3 id="keepallive配置修改"><a href="#keepallive配置修改" class="headerlink" title="keepallive配置修改"></a>keepallive配置修改</h3><p>其他部分与主节点一致</p><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# vi /etc/keepalived/keepalived.conf! Configuration File for keepalivedglobal_defs { router_id nginx ##标识节点的字符串，通常为hostname}vrrp_script chk_nginx { script "/etc/keepalived/nginx_check.sh"  ##执行脚本位置 interval 2 ##检测时间间隔 weight -5 ## 如果条件成立则权重减5（-5） fall 3  ## 失败3次 rise 2  ## 尝试2次}## 定义虚拟路由 VI_1为自定义标识。vrrp_instance VI_1 {    state BACKUP      ## 主节点为MASTER，备份节点为BACKUP    interface 网卡名(如：eth1)    mcast_src_ip 本机ip地址    virtual_router_id 51  ## 虚拟路由ID号，主从要一致    priority 99  ##优先级配置（0-254的值）    advert_int 2 ## 组播信息发送间隔，俩个节点必须配置一致，默认1s    authentication {        auth_type PASS        auth_pass 1111 ## 真实生产环境下对密码进行匹配    }    virtual_ipaddress {        虚拟ip地址(ping不通的同网段ip)/24    ## 虚拟ip(vip)，可以指定多个    }    track_script {      chk_nginx  ##vrrp_script 名    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="三、验证"><a href="#三、验证" class="headerlink" title="三、验证"></a>三、验证</h2><h3 id="查看虚拟ip"><a href="#查看虚拟ip" class="headerlink" title="查看虚拟ip"></a>查看虚拟ip</h3><p><code>ip a</code>查看vip是否已经有了</p><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# ip a...2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000    ...    inet 192.168.112.139/24 brd 192.168.112.255 scope global noprefixroute dynamic ens33       ...    inet 192.168.112.141/24 scope global secondary ens33 #vip...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>keepalived判断脚本是nginx的，kill掉nginx后，再次查看主节点和从节点vip是否存在</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> KeepAlive </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> KeepAlive </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Qt窗口设置</title>
+      <link href="/2022/01/09/qt-chuang-kou-she-zhi/"/>
+      <url>/2022/01/09/qt-chuang-kou-she-zhi/</url>
+      
+        <content type="html"><![CDATA[<p>s</p><p>​     //初始化窗口为无标题，半透明，透明度为0.8</p><p>​     this-&gt;setWindowFlags(Qt::FramelessWindowHint);</p><p>​     this-&gt;setWindowOpacity(0.8);</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># setWindowFlags(Qt::FramelessWindowHint | Qt::Tool); // 无边框 + 无状态栏图标</span><span class="token comment"># setAttribute(Qt::WA_TranslucentBackground); // 透明</span>self<span class="token punctuation">.</span>ui<span class="token punctuation">.</span>setWindowFlags<span class="token punctuation">(</span>Qt<span class="token punctuation">.</span>FramelessWindowHint<span class="token punctuation">)</span>self<span class="token punctuation">.</span>ui<span class="token punctuation">.</span>setAttribute<span class="token punctuation">(</span>Qt<span class="token punctuation">.</span>WA_TranslucentBackground<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>好，当我们清楚了窗口移动的原理后，就比较轻松了，只需要查找到这个三个事件并对其进行重写即可。我们知道，Qt的控件中有鼠标事件，其中有三个正好是我们所需要的</p><p>virtual voidmousePressEvent(QMouseEvent* e);    // 鼠标的单击事件</p><p>virtual voidmouseMoveEvent(QMouseEvent* e);    // 鼠标的移动事件</p><pre><code>     virtualvoid mouseReleaseEvent(QMouseEvent* e);  // 鼠标的单击释放事件</code></pre><p>透明</p><p><a href="https://blog.csdn.net/InTim/article/details/81513990">https://blog.csdn.net/InTim/article/details/81513990</a></p><p>左键移动</p><p><a href="https://blog.csdn.net/qq_45662588/article/details/121082278">https://blog.csdn.net/qq_45662588/article/details/121082278</a></p><p><a href="https://blog.csdn.net/fgh1991/article/details/89888002">https://blog.csdn.net/fgh1991/article/details/89888002</a></p><p>透明加左键移动</p><p><a href="https://blog.csdn.net/chlk118/article/details/39235153">https://blog.csdn.net/chlk118/article/details/39235153</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>kind快速搭建Kubernetes</title>
       <link href="/2022/01/07/kind-kuai-su-da-jian-kubernetes/"/>
       <url>/2022/01/07/kind-kuai-su-da-jian-kubernetes/</url>

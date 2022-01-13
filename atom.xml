@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-01-07T07:23:17.408Z</updated>
+  <updated>2022-01-13T06:50:14.564Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -15,6 +15,82 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Go操作elasticsearch</title>
+    <link href="http://xxdeye.github.io/2022/01/13/go-cao-zuo-elasticsearch/"/>
+    <id>http://xxdeye.github.io/2022/01/13/go-cao-zuo-elasticsearch/</id>
+    <published>2022-01-13T06:37:30.000Z</published>
+    <updated>2022-01-13T06:50:14.564Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;yin引用：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
+    
+    <category term="elastic" scheme="http://xxdeye.github.io/categories/Go/elastic/"/>
+    
+    
+    <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>KeepAlive部署</title>
+    <link href="http://xxdeye.github.io/2022/01/11/keepalived-bu-shu/"/>
+    <id>http://xxdeye.github.io/2022/01/11/keepalived-bu-shu/</id>
+    <published>2022-01-11T12:50:51.000Z</published>
+    <updated>2022-01-13T06:36:39.089Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、主节点&quot;&gt;&lt;a href=&quot;#一、主节点&quot; class=&quot;headerlink&quot; title=&quot;一、主节点&quot;&gt;&lt;/a&gt;一、主节点&lt;/h2&gt;&lt;h3 id=&quot;安装keepalive&quot;&gt;&lt;a href=&quot;#安装keepalive&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="KeepAlive" scheme="http://xxdeye.github.io/categories/KeepAlive/"/>
+    
+    
+    <category term="KeepAlive" scheme="http://xxdeye.github.io/tags/KeepAlive/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Qt窗口设置</title>
+    <link href="http://xxdeye.github.io/2022/01/09/qt-chuang-kou-she-zhi/"/>
+    <id>http://xxdeye.github.io/2022/01/09/qt-chuang-kou-she-zhi/</id>
+    <published>2022-01-09T12:31:47.000Z</published>
+    <updated>2022-01-11T08:14:29.906Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;s&lt;/p&gt;
+&lt;p&gt;​     //初始化窗口为无标题，半透明，透明度为0.8&lt;/p&gt;
+&lt;p&gt;​     this-&amp;gt;setWindowFlags(Qt::FramelessWindowHint);&lt;/p&gt;
+&lt;p&gt;​    </summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>kind快速搭建Kubernetes</title>
