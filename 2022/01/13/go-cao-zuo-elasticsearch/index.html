@@ -5,8 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Go操作elasticsearch, 夜">
-    <meta name="description" content="yin引用：https://blog.csdn.net/p1049990866/article/details/117254708
-">
+    <meta name="description" content="Go操作elasticsearch版本&#34;github.com/olivere/elastic/v7&#34;
+ES版本7的用v7的包，版本6的用v6的包
+连接声明client类型
+var client *elastic.Client
+errorlo">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -487,7 +490,92 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>yin引用：<a target="_blank" rel="noopener" href="https://blog.csdn.net/p1049990866/article/details/117254708">https://blog.csdn.net/p1049990866/article/details/117254708</a></p>
+                <h1 id="Go操作elasticsearch"><a href="#Go操作elasticsearch" class="headerlink" title="Go操作elasticsearch"></a>Go操作elasticsearch</h1><h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p><code>"github.com/olivere/elastic/v7"</code></p>
+<p>ES版本7的用v7的包，版本6的用v6的包</p>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>声明client类型</p>
+<p><code>var client *elastic.Client</code></p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">errorlog <span class="token operator">:=</span> log<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span>os<span class="token punctuation">.</span>Stdout<span class="token punctuation">,</span> <span class="token string">"ELASTIC"</span><span class="token punctuation">,</span> log<span class="token punctuation">.</span>LstdFlags<span class="token punctuation">)</span>
+client<span class="token punctuation">,</span> err <span class="token operator">=</span> elastic<span class="token punctuation">.</span><span class="token function">NewClient</span><span class="token punctuation">(</span>
+<span class="token comment">//  elastic.SetSniff(true),      //是否开启集群嗅探</span>
+<span class="token comment">//	elastic.SetHealthcheckInterval(10 * time.Second), //设置两次运行状况检查之间的间隔, 默认60s</span>
+<span class="token comment">//	elastic.SetGzip(false),  //启用或禁用gzip压缩</span>
+<span class="token comment">//	elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),  //INFO级别日志输出配置</span>
+    elastic<span class="token punctuation">.</span><span class="token function">SetErrorLog</span><span class="token punctuation">(</span>errorlog<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 设置error日志输出格式</span>
+    elastic<span class="token punctuation">.</span><span class="token function">SetURL</span><span class="token punctuation">(</span><span class="token string">"http://127.0.0.1:9200"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// Es url </span>
+    elastic<span class="token punctuation">.</span><span class="token function">SetBasicAuth</span><span class="token punctuation">(</span>
+        <span class="token string">"xxx"</span><span class="token punctuation">,</span>   <span class="token comment">// 账号</span>
+        <span class="token string">"xxxxxx"</span><span class="token punctuation">)</span>  <span class="token comment">// 密码</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="查看连接状态"><a href="#查看连接状态" class="headerlink" title="查看连接状态"></a>查看连接状态</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">info<span class="token punctuation">,</span> code<span class="token punctuation">,</span> err <span class="token operator">:=</span> client<span class="token punctuation">.</span><span class="token function">Ping</span><span class="token punctuation">(</span>
+    <span class="token string">"http://127.0.0.1:9200"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">esversion<span class="token punctuation">,</span> err <span class="token operator">:=</span> client<span class="token punctuation">.</span><span class="token function">ElasticsearchVersion</span><span class="token punctuation">(</span>
+    <span class="token string">"http://127.0.0.1:9200"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="创建-更新索引"><a href="#创建-更新索引" class="headerlink" title="创建/更新索引"></a>创建/更新索引</h2><h3 id="单条操作"><a href="#单条操作" class="headerlink" title="单条操作"></a>单条操作</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">=</span> conf<span class="token punctuation">.</span><span class="token function">ES</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+	<span class="token function">Index</span><span class="token punctuation">(</span>indexName<span class="token punctuation">)</span><span class="token punctuation">.</span>
+	<span class="token function">Type</span><span class="token punctuation">(</span><span class="token string">"_doc"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+	<span class="token comment">// id为字符串, 创建一条此id的数据或覆盖已有此id的记录</span>
+	<span class="token comment">// data为结构体或map, 当然结构需要跟索引的mapping类型保持一致</span>
+	<span class="token function">Id</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">BodyJson</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">.</span>
+	<span class="token function">Do</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">bulkRequest <span class="token operator">:=</span> client<span class="token punctuation">.</span><span class="token function">Bulk</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span><span class="token string">"xxx"</span><span class="token punctuation">)</span>  <span class="token comment">// 索引名</span>
+doc <span class="token operator">:=</span> elastic<span class="token punctuation">.</span><span class="token function">NewBulkIndexRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Id</span><span class="token punctuation">(</span>
+    <span class="token string">"xxx"</span>  <span class="token comment">// 文档id</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Doc</span><span class="token punctuation">(</span>
+    res  <span class="token comment">// 文档内容</span>
+<span class="token punctuation">)</span>
+bulkRequest <span class="token operator">=</span> bulkRequest<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>doc<span class="token punctuation">)</span>  <span class="token comment">// 添加到bulk批次里</span>
+bulkRequest<span class="token punctuation">.</span><span class="token function">NumberOfActions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 查看bulk批次里文档数</span>
+
+bulkResponse<span class="token punctuation">,</span> err <span class="token operator">:=</span> bulkRequest<span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment">// 执行提交bulk</span>
+bulkResponse<span class="token punctuation">.</span><span class="token function">Failed</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 查看提交失败的文档</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="查询索引"><a href="#查询索引" class="headerlink" title="查询索引"></a>查询索引</h2><h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">boolQ <span class="token operator">:=</span> elastic<span class="token punctuation">.</span><span class="token function">NewBoolQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 声明条件</span>
+boolQ<span class="token punctuation">.</span><span class="token function">Filter</span><span class="token punctuation">(</span>  <span class="token comment">// filter筛选</span>
+    elastic<span class="token punctuation">.</span><span class="token function">NewRangeQuery</span><span class="token punctuation">(</span>
+        <span class="token string">"xxx"</span>  <span class="token comment">// key</span>
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Gte</span><span class="token punctuation">(</span>  <span class="token comment">// 大于等于</span>
+        <span class="token string">"aaaa"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Lt</span><span class="token punctuation">(</span>  <span class="token comment">// 小于等于</span>
+        <span class="token string">"bbbb"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">QueryName</span><span class="token punctuation">(</span>
+        <span class="token string">"xxxx"</span>  <span class="token comment">// 字段</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="scroll查询"><a href="#scroll查询" class="headerlink" title="scroll查询"></a>scroll查询</h3><p>一次查询量过大，分批查询</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">do<span class="token punctuation">,</span> err <span class="token operator">:=</span> client<span class="token punctuation">.</span><span class="token function">Scroll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Index</span><span class="token punctuation">(</span>
+    <span class="token string">"xxxx"</span>  <span class="token comment">// 索引名</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Scroll</span><span class="token punctuation">(</span>
+    <span class="token string">"5s"</span>  <span class="token comment">// scroll每次查询内容保留时间</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Query</span><span class="token punctuation">(</span>
+    boolQ  <span class="token comment">// 查询条件</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span>
+    <span class="token number">1000</span>  <span class="token comment">// scroll每次查询大小</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>获取返回scroll ID</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">scrollId <span class="token operator">:=</span> do<span class="token punctuation">.</span>ScrollId<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>基于scroll ID查询接下来内容</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">result<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> client<span class="token punctuation">.</span><span class="token function">Scroll</span><span class="token punctuation">(</span>
+    <span class="token string">"5s"</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Query</span><span class="token punctuation">(</span>
+    boolQ
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ScrollId</span><span class="token punctuation">(</span>
+    scrollId
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>清除当前scroll ID，多scroll查询一定要清除</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">client<span class="token punctuation">.</span><span class="token function">ClearScroll</span><span class="token punctuation">(</span>do<span class="token punctuation">.</span>ScrollId<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p>引用：</p>
+<p><a target="_blank" rel="noopener" href="https://pkg.go.dev/github.com/olivere/elastic?utm_source=godoc">https://pkg.go.dev/github.com/olivere/elastic?utm_source=godoc</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/p1049990866/article/details/117254708">https://blog.csdn.net/p1049990866/article/details/117254708</a></p>
 
                 
             </div>
@@ -828,60 +916,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="/libs/aplayer/Meting.min.js"></script>
-
     
 
     <div class="container row center-align"
