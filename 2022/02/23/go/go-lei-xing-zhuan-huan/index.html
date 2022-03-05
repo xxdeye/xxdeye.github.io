@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Rancher2部署, 夜">
-    <meta name="description" content="Rancher2部署">
+    <meta name="keywords" content="Go类型转换, 夜">
+    <meta name="description" content="Go类型转换">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Rancher2部署 | 夜</title>
+    <title>Go类型转换 | 夜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -30,9 +30,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
-
+<meta name="generator" content="Hexo 5.4.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
 </head>
 
 
@@ -312,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Rancher2部署</h1>
+                    <h1 class="description center-align post-title">Go类型转换</h1>
                 </div>
             </div>
         </div>
@@ -433,12 +433,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Rancher/">
-                                <span class="chip bg-color">Rancher</span>
-                            </a>
-                        
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
+                            <a href="/tags/Go/">
+                                <span class="chip bg-color">Go</span>
                             </a>
                         
                     </div>
@@ -449,8 +445,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Rancher/" class="post-category">
-                                Rancher
+                            <a href="/categories/Go/" class="post-category">
+                                Go
                             </a>
                         
                     </div>
@@ -462,7 +458,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-12-28
+                    2022-02-23
                 </div>
                 
 
@@ -486,92 +482,20 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="一、服务端"><a href="#一、服务端" class="headerlink" title="一、服务端"></a>一、服务端</h1><h2 id="部署k3s"><a href="#部署k3s" class="headerlink" title="部署k3s"></a>部署k3s</h2><h3 id="单点"><a href="#单点" class="headerlink" title="单点"></a>单点</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ curl -sfL http://rancher-mirror.cnrancher.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
-$ cp /etc/rancher/k3s/k3s.yaml  ~/.kube/config
-$ kubectl get pods --all-namespaces<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+                <h1 id="各个类型转换"><a href="#各个类型转换" class="headerlink" title="各个类型转换"></a>各个类型转换</h1><h2 id="string转成int"><a href="#string转成int" class="headerlink" title="string转成int"></a>string转成int</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Atoi</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="多点"><a href="#多点" class="headerlink" title="多点"></a>多点</h3><p>在其他node上执行以下命令，<code>K3S_TOKEN</code> 在第一台服务器的<code>/var/lib/rancher/k3s/server/node-token</code>路径下</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h2 id="部署rancher-server"><a href="#部署rancher-server" class="headerlink" title="部署rancher server"></a>部署rancher server</h2><h3 id="添加-Helm-Chart-仓库"><a href="#添加-Helm-Chart-仓库" class="headerlink" title="添加 Helm Chart 仓库"></a>添加 Helm Chart 仓库</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ helm repo add rancher-stable http://rancher-mirror.oss-cn-beijing.aliyuncs.com/server-charts/stable<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="为-Rancher-创建-Namespace"><a href="#为-Rancher-创建-Namespace" class="headerlink" title="为 Rancher 创建 Namespace"></a>为 Rancher 创建 Namespace</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl create namespace cattle-system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="string转成int64"><a href="#string转成int64" class="headerlink" title="string转成int64"></a>string转成int64</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int64</span><span class="token punctuation">,</span> <span class="token boolean">_</span><span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">ParseInt</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="安装cert-manager"><a href="#安装cert-manager" class="headerlink" title="安装cert-manager"></a>安装cert-manager</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"># 在升级Helm chart之前升级CRD资源
-$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
-# 添加 Jetstack Helm 仓库
-$ helm repo add jetstack [https://charts.jetstack.io](https://charts.jetstack.io/)
-# 更新本地 Helm chart 仓库缓存
-$ helm repo update
-# ingress.tls.source不写默认是rancher自签证书，签证域名用的是hostname填的
-# replicas设置为 Rancher 部署所使用的复制数量默认为 3
-# --version 指定版本
-$ helm install rancher rancher-stable/rancher \
- --namespace cattle-system \
- --set hostname=rancher.my.xxx \
- --set replicas=1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="等待-Rancher-运行"><a href="#等待-Rancher-运行" class="headerlink" title="等待 Rancher 运行"></a>等待 Rancher 运行</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl -n cattle-system rollout status deploy/rancher<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>用所填的<code>hostname</code>访问，如：<code>rancher.my.xxx</code></p>
-<h1 id="二、代理端"><a href="#二、代理端" class="headerlink" title="二、代理端"></a>二、代理端</h1><h2 id="部署k8s"><a href="#部署k8s" class="headerlink" title="部署k8s"></a>部署k8s</h2><h3 id="设置基础环境"><a href="#设置基础环境" class="headerlink" title="设置基础环境"></a>设置基础环境</h3><p>关掉防火墙，selinux</p>
-<p>禁用虚拟内存：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ swapoff -a 
-$ sed -ri 's/.*swap.*/#&amp;/' /etc/fstab <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="int转成string"><a href="#int转成string" class="headerlink" title="int转成string"></a>int转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Itoa</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum -y  docker 
-$ vi /etc/docker/daemon.json
-{ 
-"registry-mirrors": ["https://registry.docker-cn.com"], 
-"exec-opt": ["native.cgroupdriver=systemd"] 
-}
-$ systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="安装kubeadm"><a href="#安装kubeadm" class="headerlink" title="安装kubeadm"></a>安装kubeadm</h3><p>新增repo包</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>指定版本安装（rancher目前貌似不支持1.22版本以上的k8s）</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ yum install -y kubelet-1.21.3 kubeadm-1.21.3 kubectl-1.21.3
-$ systemctl enable kubelet;systemctl start kubelet 　<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="int64转成string"><a href="#int64转成string" class="headerlink" title="int64转成string"></a>int64转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">FormatInt</span><span class="token punctuation">(</span><span class="token builtin">int64</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>kubeadm安装k8s（单节点部署）</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubeadm init --kubernetes-version=1.21.3  --apiserver-advertise-address=本机ip --image-repository registry.aliyuncs.com/google_containers  --service-cidr=10.10.0.0/16 --pod-network-cidr=10.122.0.0/16 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>执行完成后，根据提示执行</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ mkdir -p $HOME/.kube
-$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-$ sudo chown $(id -u):$(id -g) $HOME/.kube/config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="添加cni"><a href="#添加cni" class="headerlink" title="添加cni"></a>添加cni</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ wget https://docs.projectcalico.org/manifests/calico.yaml
-$ vi calico.yaml
-    - name: IP_AUTODETECTION_METHOD  # DaemonSet中添加该环境变量
-      value: interface=ens160  
-$ kubectl apply -f calico.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="污点"><a href="#污点" class="headerlink" title="污点"></a>污点</h3><p>单点，所以要把master污点去掉</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl describe node 本机 
-$ kubectl taint node 本机 node-role.kubernetes.io/master:NoSchedule-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="dns解析"><a href="#dns解析" class="headerlink" title="dns解析"></a>dns解析</h2><p>不走dns域名解析可以用本地解析</p>
-<h3 id="在代理端修改hosts"><a href="#在代理端修改hosts" class="headerlink" title="在代理端修改hosts"></a>在代理端修改hosts</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ vi /etc/hosts
-# 服务端ip地址
-192.168.x.x rancher.my.xxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="修改coredns-configmap"><a href="#修改coredns-configmap" class="headerlink" title="修改coredns configmap"></a>修改coredns configmap</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl edit cm coredns -n kube-system 
-hosts {
-    192.168.x.x rancher.my.xxx 
-    fallthrougu 
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">$ kubectl delete pods  coredns-xxx -n kube-system<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
                 
             </div>
@@ -598,7 +522,7 @@ hosts {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2021/12/28/rancher2-bu-shu/">http://xxdeye.github.io/2021/12/28/rancher2-bu-shu/</a>
+                    <a href="http://xxdeye.github.io/2022/02/23/go/go-lei-xing-zhuan-huan/">http://xxdeye.github.io/2022/02/23/go/go-lei-xing-zhuan-huan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -636,12 +560,8 @@ hosts {
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Rancher/">
-                                    <span class="chip bg-color">Rancher</span>
-                                </a>
-                            
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
+                                <a href="/tags/Go/">
+                                    <span class="chip bg-color">Go</span>
                                 </a>
                             
                         </div>
@@ -691,31 +611,35 @@ hosts {
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/12/29/es-qi-dong-bao-cuo/">
+                <a href="/2022/02/23/go/go-time-yong-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="ES启动报错">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Go time用法">
                         
-                        <span class="card-title">ES启动报错</span>
+                        <span class="card-title">Go time用法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Elasticsearch启动报错问题处理
+                            time简单用法
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-12-29
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-02-23
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Elasticsearch/" class="post-category">
-                                    Elasticsearch
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/Time/" class="post-category">
+                                    Time
                                 </a>
                             
                             
@@ -725,8 +649,8 @@ hosts {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Elasticsearch/">
-                        <span class="chip bg-color">Elasticsearch</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>
@@ -737,50 +661,49 @@ hosts {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/12/28/rancher2-bu-shu/">
+                <a href="/2022/02/23/go/go-jiang-shu-ju-ku-zhong-dan-biao-zhuan-cheng-csv-wen-jian-shu-chu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Rancher2部署">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Go 将数据库中单表转成csv文件输出">
                         
-                        <span class="card-title">Rancher2部署</span>
+                        <span class="card-title">Go 将数据库中单表转成csv文件输出</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Rancher2部署
+                            Go 将数据库中单表转成csv文件输出
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-23
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Rancher/" class="post-category">
-                                    Rancher
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/csv/" class="post-category">
+                                    csv
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Rancher/">
-                        <span class="chip bg-color">Rancher</span>
-                    </a>
-                    
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>

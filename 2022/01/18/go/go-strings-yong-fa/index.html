@@ -30,9 +30,9 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
-
+<meta name="generator" content="Hexo 5.4.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
 </head>
 
 
@@ -493,7 +493,15 @@
 fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Fields are:%q\n"</span><span class="token punctuation">,</span>  
     strings<span class="token punctuation">.</span><span class="token function">FieldsFunc</span><span class="token punctuation">(</span><span class="token string">"ABC123PQR456XYZ789"</span><span class="token punctuation">,</span> f<span class="token punctuation">)</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="去空格"><a href="#去空格" class="headerlink" title="去空格"></a>去空格</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Fields are: %q"</span><span class="token punctuation">,</span> strings<span class="token punctuation">.</span><span class="token function">FieldsFunc</span><span class="token punctuation">(</span>str<span class="token punctuation">,</span> unicode<span class="token punctuation">.</span>IsSpace<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="去空格"><a href="#去空格" class="headerlink" title="去空格"></a>去空格</h3><h4 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go">fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"Fields are: %q"</span><span class="token punctuation">,</span> strings<span class="token punctuation">.</span><span class="token function">FieldsFunc</span><span class="token punctuation">(</span>str<span class="token punctuation">,</span> unicode<span class="token punctuation">.</span>IsSpace<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go">context <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">Fields</span><span class="token punctuation">(</span><span class="token string">"zhangsan lisi wanger"</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"context[0] is: %s\n"</span><span class="token punctuation">,</span> context<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"context[1] is: %s\n"</span><span class="token punctuation">,</span> context<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"context[2] is: %s\n"</span><span class="token punctuation">,</span> context<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"context is: %s\n"</span><span class="token punctuation">,</span> context<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 
 <p>引用：</p>
 <p><a target="_blank" rel="noopener" href="https://vimsky.com/examples/usage/strings-fieldsfunc-function-in-golang-with-examples.html">https://vimsky.com/examples/usage/strings-fieldsfunc-function-in-golang-with-examples.html</a></p>
@@ -609,30 +617,29 @@ fmt<span class="token punctuation">.</span><span class="token function">Printf</
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/01/18/go/go-strings-yong-fa/">
+                <a href="/2022/02/23/go/go-jiang-shu-ju-ku-zhong-dan-biao-zhuan-cheng-csv-wen-jian-shu-chu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Go strings用法">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Go 将数据库中单表转成csv文件输出">
                         
-                        <span class="card-title">Go strings用法</span>
+                        <span class="card-title">Go 将数据库中单表转成csv文件输出</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            strings简单用法
+                            Go 将数据库中单表转成csv文件输出
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-18
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-02-23
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -641,15 +648,14 @@ fmt<span class="token punctuation">.</span><span class="token function">Printf</
                                     Go
                                 </a>
                             
-                            <a href="/categories/Go/Strings/" class="post-category">
-                                    Strings
+                            <a href="/categories/Go/csv/" class="post-category">
+                                    csv
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     

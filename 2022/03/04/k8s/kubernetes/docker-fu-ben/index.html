@@ -4,10 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="kind快速搭建Kubernetes, 夜">
-    <meta name="description" content="kind快速搭建Kubernetes官方文档：https://kind.sigs.k8s.io/docs/user/quick-start/
-kind安装下载二进制文件
-curl -Lo ./kind https://kind.sigs.k">
+    <meta name="keywords" content="Sidecar模式, 夜">
+    <meta name="description" content="Sidecar模式">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +17,7 @@ curl -Lo ./kind https://kind.sigs.k">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>kind快速搭建Kubernetes | 夜</title>
+    <title>Sidecar模式 | 夜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -32,9 +30,9 @@ curl -Lo ./kind https://kind.sigs.k">
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
-
+<meta name="generator" content="Hexo 5.4.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
 </head>
 
 
@@ -319,7 +317,7 @@ curl -Lo ./kind https://kind.sigs.k">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">kind快速搭建Kubernetes</h1>
+                    <h1 class="description center-align post-title">Sidecar模式</h1>
                 </div>
             </div>
         </div>
@@ -439,10 +437,6 @@ curl -Lo ./kind https://kind.sigs.k">
                                 <span class="chip bg-color">Kubernetes</span>
                             </a>
                         
-                            <a href="/tags/kind/">
-                                <span class="chip bg-color">kind</span>
-                            </a>
-                        
                     </div>
                     
                 </div>
@@ -464,7 +458,7 @@ curl -Lo ./kind https://kind.sigs.k">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-01-07
+                    2022-03-04
                 </div>
                 
 
@@ -488,111 +482,52 @@ curl -Lo ./kind https://kind.sigs.k">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="kind快速搭建Kubernetes"><a href="#kind快速搭建Kubernetes" class="headerlink" title="kind快速搭建Kubernetes"></a>kind快速搭建Kubernetes</h1><p>官方文档：<a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/docs/user/quick-start/">https://kind.sigs.k8s.io/docs/user/quick-start/</a></p>
-<h2 id="kind安装"><a href="#kind安装" class="headerlink" title="kind安装"></a>kind安装</h2><p>下载二进制文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
-chmod +x ./kind
-mv ./kind /usr/bin/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+                <h1 id="Sidecar模式"><a href="#Sidecar模式" class="headerlink" title="Sidecar模式"></a>Sidecar模式</h1><p>一、yaml配置</p>
+<pre class="line-numbers language-none"><code class="language-none">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-test
+  labels:
+    app: log-test
+spec:
+  selector:
+    matchLabels:
+      app: log-test
+  template:
+    metadata:
+      labels:
+        app: log-test
+    spec:
+      nodeName: xxx.xxx.xxx.xxx
+      containers:
+      - name: nginxlog
+        image: test:1.0.0
+        imagePullPolicy: Never #不拉镜像
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: filebeat-input  # sidecar日志卷名
+          mountPath: /data/appLogs  # 应用日志输出路径
+      - name: filebeat
+        image: test-filebeat:1.0.0 
+        imagePullPolicy: Never  # 不拉镜像
+        volumeMounts:
+        - name: filebeat-input  # sidecar日志卷名--要和应用的一致
+          mountPath: /data/appLogs  # 读取容器日志输出路径
+        - name: test-volume  # 存储卷名，要和hostPath卷名一致
+          mountPath: /data/dataLogs # 与宿主机共享的目录
+      volumes:
+      - name: filebeat-input  # sidecar日志卷名--要和应用的一致
+        emptyDir: {}  # 用作临时空间，当Pod从Node上移除时，emptyDir中的数据会被永久删除
+      - name: data
+        emptyDir: {}
+      - name: test-volume  # 存储卷名
+        hostPath:  # 映射node文件系统中的文件或者目录到pod里
+          path: /data   # 宿主机存储路径<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="部署单点"><a href="#部署单点" class="headerlink" title="部署单点"></a>部署单点</h2><p>使用 kind 创建 Kubernetes 集群非常的方便，只需要一行命令即可</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind]# kind create cluster
-Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.21.1) 
-
- ✓ Preparing nodes   
- ✓ Writing configuration 
-
- ✓ Starting control-plane ️ 
- ✓ Installing CNI 
-
- ✓ Installing StorageClass 
-
-                            Set kubectl context to "kind-kind"
-You can now use your cluster with:
-
-kubectl cluster-info --context kind-kind
-
-Thanks for using kind! 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>删除集群</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind delete cluster<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>默认集群名称是 “kind”，如果要创建多个或者指定集群名称，可以指定 name 参数：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind create cluster --name<span class="token operator">=</span>k8s-cluster1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>删除集群</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">kind delete cluster --name<span class="token operator">=</span>k8s-cluster1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>查看kind容器</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind]# docker ps|grep kind
-289d71606549        kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6                "/usr/local/bin/en..."   3 minutes ago       Up 3 minutes        127.0.0.1:45171-&gt;6443/tcp   kind-control-plane<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>这时默认上下文是装好的kind</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">tools]# kubectl get pods -A
-NAMESPACE            NAME                                         READY   STATUS    RESTARTS   AGE
-kube-system          coredns-558bd4d5db-92lpw                     1/1     Running   0          12m
-kube-system          coredns-558bd4d5db-fzx8r                     1/1     Running   0          12m
-kube-system          etcd-kind-control-plane                      1/1     Running   0          12m
-kube-system          kindnet-p88hk                                1/1     Running   0          12m
-kube-system          kube-apiserver-kind-control-plane            1/1     Running   0          12m
-kube-system          kube-controller-manager-kind-control-plane   1/1     Running   0          12m
-kube-system          kube-proxy-bv9mn                             1/1     Running   0          12m
-kube-system          kube-scheduler-kind-control-plane            1/1     Running   0          12m
-local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Running   0          12m<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>查看已有上下文</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl config get-contexts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>修改上下文，切换集群</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl config  use-context kubernetes-admin@kubernetes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="多集群创建"><a href="#多集群创建" class="headerlink" title="多集群创建"></a>多集群创建</h2><p>node版本：<a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kind/releases">https://github.com/kubernetes-sigs/kind/releases</a></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Cluster
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kind.x<span class="token punctuation">-</span>k8s.io/v1alpha4
-<span class="token key atrule">nodes</span><span class="token punctuation">:</span>
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> control<span class="token punctuation">-</span>plane
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>部署引用yaml文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind create cluster --name kind --config  cluster.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="多集群创建-ingress"><a href="#多集群创建-ingress" class="headerlink" title="多集群创建-ingress"></a>多集群创建-ingress</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Cluster
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kind.x<span class="token punctuation">-</span>k8s.io/v1alpha4
-<span class="token key atrule">nodes</span><span class="token punctuation">:</span>
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> control<span class="token punctuation">-</span>plane
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-  <span class="token key atrule">kubeadmConfigPatches</span><span class="token punctuation">:</span>
-  <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"</span>
-  <span class="token key atrule">extraPortMappings</span><span class="token punctuation">:</span>  
-  <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
-    <span class="token key atrule">hostPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
-    <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
-  <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">443</span>
-    <span class="token key atrule">hostPort</span><span class="token punctuation">:</span> <span class="token number">443</span>
-    <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-<span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> worker
-  <span class="token key atrule">image</span><span class="token punctuation">:</span> kindest/node<span class="token punctuation">:</span>v1.18.15@sha256<span class="token punctuation">:</span>5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>部署引用yaml文件</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kind create cluster --name kind-ingress --config  cluster.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>部署ingress</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>引用：</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/weihanli/p/12831225.html">https://www.cnblogs.com/weihanli/p/12831225.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/392209413">https://zhuanlan.zhihu.com/p/392209413</a></p>
+<h2 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h2><p>emptyDir类型的Volume在Pod分配到Node上时被创建，Kubernetes会在Node上自动分配一个目录，因此无需指定宿主机Node上对应的目录文件。 这个目录的初始内容为空，当Pod从Node上移除时，emptyDir中的数据会被永久删除。</p>
 
                 
             </div>
@@ -619,7 +554,7 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/">http://xxdeye.github.io/2022/01/07/kind-kuai-su-da-jian-kubernetes/</a>
+                    <a href="http://xxdeye.github.io/2022/03/04/k8s/kubernetes/docker-fu-ben/">http://xxdeye.github.io/2022/03/04/k8s/kubernetes/docker-fu-ben/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -659,10 +594,6 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                             
                                 <a href="/tags/Kubernetes/">
                                     <span class="chip bg-color">Kubernetes</span>
-                                </a>
-                            
-                                <a href="/tags/kind/">
-                                    <span class="chip bg-color">kind</span>
                                 </a>
                             
                         </div>
@@ -708,85 +639,29 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/01/09/1kengqt-chuang-kou-she-zhi/">
+                <a href="/2022/03/04/k8s/kubernetes/docker-fu-ben/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Qt窗口设置">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Sidecar模式">
                         
-                        <span class="card-title">Qt窗口设置</span>
+                        <span class="card-title">Sidecar模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Qt窗口设置
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-09
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Qt/" class="post-category">
-                                    Qt
-                                </a>
-                            
-                            <a href="/categories/Qt/Python/" class="post-category">
-                                    Python
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Qt/">
-                        <span class="chip bg-color">Qt</span>
-                    </a>
-                    
-                    <a href="/tags/Python/">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/01/06/kubeadm-bu-shu/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="kubeadm部署">
-                        
-                        <span class="card-title">kubeadm部署</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
+                            Sidecar模式
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-04
                             </span>
                         <span class="publish-author">
                             
@@ -800,11 +675,61 @@ local-path-storage   local-path-provisioner-547f784dff-sn6p5      1/1     Runnin
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Kubernetes/">
                         <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/04/jvm-pei-zhi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JVM参数配置">
+                        
+                        <span class="card-title">JVM参数配置</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            JVM参数配置
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
                     </a>
                     
                 </div>
