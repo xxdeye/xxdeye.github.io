@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-03-04T07:22:11.635Z</updated>
+  <updated>2022-03-07T08:08:02.359Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -17,9 +17,35 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Kubeadm proxy代理</title>
+    <link href="http://xxdeye.github.io/2022/03/07/k8s/kubeadm-proxy-dai-li/"/>
+    <id>http://xxdeye.github.io/2022/03/07/k8s/kubeadm-proxy-dai-li/</id>
+    <published>2022-03-07T08:07:57.000Z</published>
+    <updated>2022-03-07T08:08:02.359Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;kubeadm-proxy代理&quot;&gt;&lt;a href=&quot;#kubeadm-proxy代理&quot; class=&quot;headerlink&quot; title=&quot;kubeadm proxy代理&quot;&gt;&lt;/a&gt;kubeadm proxy代理&lt;/h1&gt;&lt;p&gt;配置http代理&lt;/p&gt;
+&lt;pre</summary>
+        
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Sidecar模式</title>
-    <link href="http://xxdeye.github.io/2022/03/04/k8s/kubernetes/docker-fu-ben/"/>
-    <id>http://xxdeye.github.io/2022/03/04/k8s/kubernetes/docker-fu-ben/</id>
+    <link href="http://xxdeye.github.io/2022/03/04/k8s/kubernetes/sidecar/"/>
+    <id>http://xxdeye.github.io/2022/03/04/k8s/kubernetes/sidecar/</id>
     <published>2022-03-04T07:21:57.000Z</published>
     <updated>2022-03-04T07:22:11.635Z</updated>
     
@@ -89,6 +115,31 @@
     
     
     <category term="Docker" scheme="http://xxdeye.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes部署指南v1.20.x</title>
+    <link href="http://xxdeye.github.io/2022/03/01/k8s/kubernetes-bu-shu-zhi-nan-v1.20.x/"/>
+    <id>http://xxdeye.github.io/2022/03/01/k8s/kubernetes-bu-shu-zhi-nan-v1.20.x/</id>
+    <published>2022-03-01T04:50:57.000Z</published>
+    <updated>2022-03-07T08:06:17.357Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、基础环境准备&quot;&gt;&lt;a href=&quot;#一、基础环境准备&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
     
   </entry>
   
@@ -449,7 +500,7 @@
     <link href="http://xxdeye.github.io/2022/01/07/k8s/kind-kuai-su-da-jian-kubernetes/"/>
     <id>http://xxdeye.github.io/2022/01/07/k8s/kind-kuai-su-da-jian-kubernetes/</id>
     <published>2022-01-07T06:14:36.000Z</published>
-    <updated>2022-01-07T07:23:17.408Z</updated>
+    <updated>2022-03-07T08:04:23.574Z</updated>
     
     
       
@@ -476,7 +527,7 @@
     <link href="http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/"/>
     <id>http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/</id>
     <published>2022-01-06T14:03:06.000Z</published>
-    <updated>2022-01-07T06:10:03.261Z</updated>
+    <updated>2022-03-07T08:04:45.273Z</updated>
     
     
       
@@ -493,58 +544,6 @@
     
     
     <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git使用手册</title>
-    <link href="http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/"/>
-    <id>http://xxdeye.github.io/2022/01/06/git-shi-yong-shou-ce/</id>
-    <published>2022-01-06T13:55:07.000Z</published>
-    <updated>2022-01-13T09:27:29.968Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Git用法&quot;&gt;&lt;a href=&quot;#Git用法&quot; class=&quot;headerlink&quot; title=&quot;Git用法&quot;&gt;&lt;/a&gt;Git用法&lt;/h1&gt;&lt;h2 id=&quot;Git-clean&quot;&gt;&lt;a href=&quot;#Git-clean&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Git" scheme="http://xxdeye.github.io/categories/Git/"/>
-    
-    
-    <category term="Git" scheme="http://xxdeye.github.io/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go 配置文件解析</title>
-    <link href="http://xxdeye.github.io/2022/01/04/go/go-pei-zhi-wen-jian-jie-xi/"/>
-    <id>http://xxdeye.github.io/2022/01/04/go/go-pei-zhi-wen-jian-jie-xi/</id>
-    <published>2022-01-04T13:36:57.000Z</published>
-    <updated>2022-01-17T08:43:16.744Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;配置文件解析&quot;&gt;&lt;a href=&quot;#配置文件解析&quot; class=&quot;headerlink&quot; title=&quot;配置文件解析&quot;&gt;&lt;/a&gt;配置文件解析&lt;/h1&gt;&lt;pre class=&quot;line-numbers language-none&quot;&gt;&lt;code</summary>
-        
-      
-    
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
-    
-    <category term="viper" scheme="http://xxdeye.github.io/categories/Go/viper/"/>
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
     
   </entry>
   
