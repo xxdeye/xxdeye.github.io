@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Tengine</title>
+      <link href="/2022/03/07/tengine/tengine/"/>
+      <url>/2022/03/07/tengine/tengine/</url>
+      
+        <content type="html"><![CDATA[<h1 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h1><p><code>http://tengine.taobao.org</code></p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装依赖</p><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">yum -y install gcc gcc-c++  bzip2 perl curl curl-devel expat-devel gettext-devel openssl-devel libxml2 libxml2-devel libjpeg-devel libpng-devel freetype-devel libmcrypt-devel autoconf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>配置源</p><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">yum -y install epel-releaseyum -y install libmcrypt libmcrypt-devel mcrypt mhash <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>配置编译参数</p><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">./configure --prefix=/tools/nginx   --with-http_ssl_module   --with-http_v2_module   --with-http_realip_module   --with-http_stub_status_module   --with-http_gzip_static_module   --with-pcre   --with-file-aio  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><table><thead><tr><th><strong>编译配置参数</strong></th><th><strong>默认编译状态</strong></th><th><strong>参数说明</strong></th></tr></thead><tbody><tr><td>–without-procs</td><td>编译</td><td>不编译 Procs 模块</td></tr><tr><td>–without-http_ssl_module</td><td>编译</td><td>不编译 HTTP SSL 支持模块</td></tr><tr><td>–without-http_stub_status_module</td><td>编译</td><td>不编译运行状态模块</td></tr><tr><td>–without-http-upstream-rbtree</td><td>编译</td><td>不使用红黑树（RBTree）方式进行上游服务器的查找</td></tr><tr><td>–with-http_lua_module</td><td>不编译</td><td>编译 Lua 脚本模块</td></tr><tr><td>–with-stream_sni</td><td>不编译</td><td>编译 TCP 代理时基于 SSL 的 SNI 支持</td></tr><tr><td>–with-jemalloc</td><td>不编译</td><td>启用 jemalloc 内存管理</td></tr><tr><td>–with-http_realip_module</td><td>不编译</td><td>启用ngx_http_realip_module</td></tr><tr><td>–with-http_stub_status_module</td><td>不编译</td><td>启用ngx_http_stub_status_module</td></tr><tr><td>–with-http_gzip_static_module</td><td>不编译</td><td>启用ngx_http_gzip_static_module</td></tr><tr><td>–with-file-aio</td><td>不编译</td><td>启用file AIO support</td></tr></tbody></table><p>编译及安装</p><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">make &amp;&amp; make install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h1 id="集成模块"><a href="#集成模块" class="headerlink" title="集成模块"></a>集成模块</h1><table><thead><tr><th><strong>模块文件夹名</strong></th><th><strong>模块说明</strong></th></tr></thead><tbody><tr><td>mod_dubbo</td><td>提供对与后端 Dubbo 服务体系对接的支持</td></tr><tr><td>ngx_backtrace_module</td><td>该模块可用于在工作进程异常退出时转储 Nginx 的回溯信息，如在接收到某些信号（sigabr、sigbus、sigfpe、sigill、sigiot、sigsegv）时。它非常便于调试</td></tr><tr><td>ngx_debug_pool</td><td>该模块可以提供 Nginx/Tengine 内存池占用内存的状态信息</td></tr><tr><td>ngx_debug_timer</td><td>该模块可以提供 Nginx/Tengine 定时器的状态信息</td></tr><tr><td>ngx_http_concat_module</td><td>类似于 Apache 中的 mod_concat 模块，用于将多个文件合并在一个响应报文中</td></tr><tr><td>ngx_http_footer_filter_module</td><td>在请求的响应末尾输出一段内容</td></tr><tr><td>ngx_http_lua_module</td><td>Lua 脚本集成模块</td></tr><tr><td>ngx_http_proxy_connect_module</td><td>提供对 HTTP 的 CONNECT 方法的支持</td></tr><tr><td>ngx_http_reqstat_module</td><td>监控模块</td></tr><tr><td>ngx_http_slice_module</td><td>文件切片模块</td></tr><tr><td>ngx_http_sysguard_module</td><td>该模块监控内存（含 SWAP 分区）、CPU 和请求的响应时间，当某些监控指标达到设定的阈值时，跳转到指定的 URL</td></tr><tr><td>ngx_http_tfs_module</td><td>该模块实现了 TFS 的客户端，为 TFS 提供了 RESTful API。TFS 的全称是 Taobao File System，是淘宝的一个开源分布式文件系统</td></tr><tr><td>ngx_http_trim_filter_module</td><td>该模块用于删除 HTML、内嵌在 JavaScript 和 CSS 中的注释以及重复的空白符</td></tr><tr><td>ngx_http_upstream_check_module</td><td>该模块可以为 Tengine 提供主动式后端服务器健康检查功能</td></tr><tr><td>ngx_http_upstream_consistent_hash_module</td><td>该模块提供一致性 hash 作为负载均衡算法</td></tr><tr><td>ngx_http_upstream_dynamic_module</td><td>此模块可在运行时动态解析 upstream 中 Server 域名</td></tr><tr><td>ngx_http_upstream_dyups_module</td><td>upstream 动态修改模块</td></tr><tr><td>ngx_http_upstream_session_sticky_module</td><td>该模块是一个负载均衡模块，通过 cookie 实现客户端与后端服务器的会话保持，在一定条件下可以保证同一个客户端访问的是同一个后端服务器</td></tr><tr><td>ngx_http_upstream_vnswrr_module</td><td>该模块是一个高效的负载均衡算法，同 Nginx 官方的加权轮询算法 SWRR 相比，VNSWRR 具备平滑、散列和高性能特征</td></tr><tr><td>ngx_http_user_agent_module</td><td>该模块可以分析 HTTP 消息头属性字段“User-Agent”中的内容</td></tr><tr><td>ngx_multi_upstream_module</td><td>Dubbo 服务的多路复用连接支持模块</td></tr><tr><td>ngx_slab_stat</td><td>该模块可以提供 Nginx/Tengine 共享内存的状态信息</td></tr></tbody></table><h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><h2 id="隐藏Tengine版本信息"><a href="#隐藏Tengine版本信息" class="headerlink" title="隐藏Tengine版本信息"></a>隐藏Tengine版本信息</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">http {...    server_tokens off;    server_info off;    server_tag off;...}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>引用：</p><p><a href="https://www.cnblogs.com/lizexiong/p/15012824.html">https://www.cnblogs.com/lizexiong/p/15012824.html</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tengine </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Tengine </tag>
+            
+            <tag> Nginx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubeadm proxy代理</title>
       <link href="/2022/03/07/k8s/kubeadm-proxy-dai-li/"/>
       <url>/2022/03/07/k8s/kubeadm-proxy-dai-li/</url>

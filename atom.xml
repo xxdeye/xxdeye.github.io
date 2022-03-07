@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-03-07T08:08:02.359Z</updated>
+  <updated>2022-03-07T08:51:28.540Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tengine</title>
+    <link href="http://xxdeye.github.io/2022/03/07/tengine/tengine/"/>
+    <id>http://xxdeye.github.io/2022/03/07/tengine/tengine/</id>
+    <published>2022-03-07T08:18:27.000Z</published>
+    <updated>2022-03-07T08:51:28.540Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;官网&quot;&gt;&lt;a href=&quot;#官网&quot; class=&quot;headerlink&quot; title=&quot;官网&quot;&gt;&lt;/a&gt;官网&lt;/h1&gt;&lt;p&gt;&lt;code&gt;http://tengine.taobao.org&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Tengine" scheme="http://xxdeye.github.io/categories/Tengine/"/>
+    
+    
+    <category term="Tengine" scheme="http://xxdeye.github.io/tags/Tengine/"/>
+    
+    <category term="Nginx" scheme="http://xxdeye.github.io/tags/Nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubeadm proxy代理</title>
@@ -519,31 +547,6 @@
     <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
     
     <category term="kind" scheme="http://xxdeye.github.io/tags/kind/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubeadm部署</title>
-    <link href="http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/"/>
-    <id>http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/</id>
-    <published>2022-01-06T14:03:06.000Z</published>
-    <updated>2022-03-07T08:04:45.273Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;基础环境&quot;&gt;&lt;a href=&quot;#基础环境&quot; class=&quot;headerlink&quot; title=&quot;基础环境&quot;&gt;&lt;/a&gt;基础环境&lt;/h1&gt;&lt;h2 id=&quot;基础配置&quot;&gt;&lt;a href=&quot;#基础配置&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
-    
-    
-    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
     
   </entry>
   
