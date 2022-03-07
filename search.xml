@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Hexo问题处理</title>
+      <link href="/2022/03/07/hexo/"/>
+      <url>/2022/03/07/hexo/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Hexo分类标签中关于大小写的bug"><a href="#Hexo分类标签中关于大小写的bug" class="headerlink" title="Hexo分类标签中关于大小写的bug"></a>Hexo分类标签中关于大小写的bug</h1><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>tag含大写字母的时候，页面点击对应的tag，找不到对应页面</p><p>将url中的大写改成小写才能正常访问</p><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>修改文件<code>.deploy_git/.git/config</code></p><p>将<code>ignorecase=true</code>改为<code>ignorecase=false</code></p><p>重新<code>hexo clean</code>;<code>hexo g</code>;<code>hexo d</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Tengine</title>
       <link href="/2022/03/07/tengine/tengine/"/>
       <url>/2022/03/07/tengine/tengine/</url>

@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-03-07T08:51:28.540Z</updated>
+  <updated>2022-03-07T09:11:33.330Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo问题处理</title>
+    <link href="http://xxdeye.github.io/2022/03/07/hexo/"/>
+    <id>http://xxdeye.github.io/2022/03/07/hexo/</id>
+    <published>2022-03-07T09:04:57.000Z</published>
+    <updated>2022-03-07T09:11:33.330Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Hexo分类标签中关于大小写的bug&quot;&gt;&lt;a href=&quot;#Hexo分类标签中关于大小写的bug&quot; class=&quot;headerlink&quot; title=&quot;Hexo分类标签中关于大小写的bug&quot;&gt;&lt;/a&gt;Hexo分类标签中关于大小写的bug&lt;/h1&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="Hexo" scheme="http://xxdeye.github.io/categories/Hexo/"/>
+    
+    
+    <category term="Hexo" scheme="http://xxdeye.github.io/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Tengine</title>
@@ -520,33 +545,6 @@
     <category term="Qt" scheme="http://xxdeye.github.io/tags/Qt/"/>
     
     <category term="Python" scheme="http://xxdeye.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kind快速搭建Kubernetes</title>
-    <link href="http://xxdeye.github.io/2022/01/07/k8s/kind-kuai-su-da-jian-kubernetes/"/>
-    <id>http://xxdeye.github.io/2022/01/07/k8s/kind-kuai-su-da-jian-kubernetes/</id>
-    <published>2022-01-07T06:14:36.000Z</published>
-    <updated>2022-03-07T08:04:23.574Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;kind快速搭建Kubernetes&quot;&gt;&lt;a href=&quot;#kind快速搭建Kubernetes&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
-    
-    
-    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
-    
-    <category term="kind" scheme="http://xxdeye.github.io/tags/kind/"/>
     
   </entry>
   
