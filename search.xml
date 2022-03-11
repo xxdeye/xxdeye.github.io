@@ -341,31 +341,6 @@
     
     
     <entry>
-      <title>Go类型转换</title>
-      <link href="/2022/02/23/go/go-lei-xing-zhuan-huan/"/>
-      <url>/2022/02/23/go/go-lei-xing-zhuan-huan/</url>
-      
-        <content type="html"><![CDATA[<h1 id="各个类型转换"><a href="#各个类型转换" class="headerlink" title="各个类型转换"></a>各个类型转换</h1><h2 id="string转成int"><a href="#string转成int" class="headerlink" title="string转成int"></a>string转成int</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Atoi</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="string转成int64"><a href="#string转成int64" class="headerlink" title="string转成int64"></a>string转成int64</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int64</span><span class="token punctuation">,</span> <span class="token boolean">_</span><span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">ParseInt</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="int转成string"><a href="#int转成string" class="headerlink" title="int转成string"></a>int转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Itoa</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="int64转成string"><a href="#int64转成string" class="headerlink" title="int64转成string"></a>int64转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">FormatInt</span><span class="token punctuation">(</span><span class="token builtin">int64</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> Go </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Go </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Go time用法</title>
       <link href="/2022/02/23/go/go-time-yong-fa/"/>
       <url>/2022/02/23/go/go-time-yong-fa/</url>
@@ -405,6 +380,31 @@
           <category> Go </category>
           
           <category> csv </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Go类型转换</title>
+      <link href="/2022/02/23/go/go-lei-xing-zhuan-huan/"/>
+      <url>/2022/02/23/go/go-lei-xing-zhuan-huan/</url>
+      
+        <content type="html"><![CDATA[<h1 id="各个类型转换"><a href="#各个类型转换" class="headerlink" title="各个类型转换"></a>各个类型转换</h1><h2 id="string转成int"><a href="#string转成int" class="headerlink" title="string转成int"></a>string转成int</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Atoi</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="string转成int64"><a href="#string转成int64" class="headerlink" title="string转成int64"></a>string转成int64</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">int64</span><span class="token punctuation">,</span> <span class="token boolean">_</span><span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">ParseInt</span><span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="int转成string"><a href="#int转成string" class="headerlink" title="int转成string"></a>int转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">Itoa</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="int64转成string"><a href="#int64转成string" class="headerlink" title="int64转成string"></a>int64转成string</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token builtin">string</span> <span class="token operator">:=</span> strconv<span class="token punctuation">.</span><span class="token function">FormatInt</span><span class="token punctuation">(</span><span class="token builtin">int64</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Go </category>
           
       </categories>
       
@@ -752,9 +752,9 @@
       
         <tags>
             
-            <tag> Rancher </tag>
-            
             <tag> Kubernetes </tag>
+            
+            <tag> Rancher </tag>
             
         </tags>
       
