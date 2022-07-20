@@ -482,7 +482,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="各密码模块"><a href="#各密码模块" class="headerlink" title="各密码模块"></a>各密码模块</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> public
+                <h1 id="各密码模块"><a href="#各密码模块" class="headerlink" title="各密码模块"></a>各密码模块</h1><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> public
 
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
 	<span class="token string">"bytes"</span>
@@ -979,9 +979,82 @@
 	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>isTrue<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h1 id="AES加密"><a href="#AES加密" class="headerlink" title="AES加密"></a>AES加密</h1><p>AES: 对称加密。AES的基本要求是，采用对称分组密码体制，密钥的长度最少支持为128(16字节)、192(24字节)、256(32字节)，分组长度128位，算法应易于各种硬件和软件实现。<br>步骤:</p>
+<ol>
+<li>   创建结构体AesEncrypter</li>
+<li>   设置key、iv</li>
+<li>   添加加密方法(返回值base64编码)</li>
+<li>   添加解密方法(参数base64解码)</li>
+</ol>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"encoding/base64"</span>
+	<span class="token string">"crypto/aes"</span>
+	<span class="token string">"crypto/cipher"</span>
+	<span class="token string">"bytes"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token keyword">type</span> AesEncrypter <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	key <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span>
+	iv	<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span>
+	block cipher<span class="token punctuation">.</span>Block
+<span class="token punctuation">}</span>
+ 
+<span class="token keyword">var</span> AesEcpt AesEncrypter
+ 
+<span class="token keyword">func</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	AesEcpt<span class="token punctuation">.</span>key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"bGcGfWb3Kg2s4gcG"</span><span class="token punctuation">)</span>
+	AesEcpt<span class="token punctuation">.</span>iv	<span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"aebksHkG4jAEk2Ag"</span><span class="token punctuation">)</span>
+	<span class="token keyword">var</span> err <span class="token builtin">error</span>
+	AesEcpt<span class="token punctuation">.</span>block<span class="token punctuation">,</span> err <span class="token operator">=</span> aes<span class="token punctuation">.</span><span class="token function">NewCipher</span><span class="token punctuation">(</span>AesEcpt<span class="token punctuation">.</span>key<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token comment">// 加密</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>AesEncrypter<span class="token punctuation">)</span> <span class="token function">AesBase64Encrypt</span><span class="token punctuation">(</span>in <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	origData <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>in<span class="token punctuation">)</span>
+	origData <span class="token operator">=</span> <span class="token function">PKCS5Padding</span><span class="token punctuation">(</span>origData<span class="token punctuation">,</span> a<span class="token punctuation">.</span>block<span class="token punctuation">.</span><span class="token function">BlockSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	crypted <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>origData<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token comment">// 根据CryptBlocks方法的说明，如下方式初始化crypted也可以</span>
+	bm <span class="token operator">:=</span> cipher<span class="token punctuation">.</span><span class="token function">NewCBCEncrypter</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>block<span class="token punctuation">,</span> a<span class="token punctuation">.</span>iv<span class="token punctuation">)</span>
+	bm<span class="token punctuation">.</span><span class="token function">CryptBlocks</span><span class="token punctuation">(</span>crypted<span class="token punctuation">,</span> origData<span class="token punctuation">)</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>crypted<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> b<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token comment">// 解密</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>AesEncrypter<span class="token punctuation">)</span> <span class="token function">AesBase64Decrypt</span><span class="token punctuation">(</span>b <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	crypted<span class="token punctuation">,</span> err <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">DecodeString</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err<span class="token operator">!=</span><span class="token boolean">nil</span><span class="token punctuation">{</span>
+ 
+	<span class="token punctuation">}</span>
+	origData <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>crypted<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	bm <span class="token operator">:=</span> cipher<span class="token punctuation">.</span><span class="token function">NewCBCDecrypter</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>block<span class="token punctuation">,</span> a<span class="token punctuation">.</span>iv<span class="token punctuation">)</span>
+	bm<span class="token punctuation">.</span><span class="token function">CryptBlocks</span><span class="token punctuation">(</span>origData<span class="token punctuation">,</span> crypted<span class="token punctuation">)</span>
+	origData <span class="token operator">=</span> <span class="token function">PKCS5UnPadding</span><span class="token punctuation">(</span>origData<span class="token punctuation">)</span>
+	<span class="token keyword">var</span> out <span class="token operator">=</span> <span class="token function">string</span><span class="token punctuation">(</span>origData<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> out<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token keyword">func</span> <span class="token function">PKCS5Padding</span><span class="token punctuation">(</span>ciphertext <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> blockSize <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	padding <span class="token operator">:=</span> blockSize <span class="token operator">-</span> <span class="token function">len</span><span class="token punctuation">(</span>ciphertext<span class="token punctuation">)</span><span class="token operator">%</span>blockSize
+	padtext <span class="token operator">:=</span> bytes<span class="token punctuation">.</span><span class="token function">Repeat</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token function">byte</span><span class="token punctuation">(</span>padding<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">,</span> padding<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token function">append</span><span class="token punctuation">(</span>ciphertext<span class="token punctuation">,</span> padtext<span class="token operator">...</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token keyword">func</span> <span class="token function">PKCS5UnPadding</span><span class="token punctuation">(</span>origData <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	length <span class="token operator">:=</span> <span class="token function">len</span><span class="token punctuation">(</span>origData<span class="token punctuation">)</span>
+	<span class="token comment">// 去掉最后一个字节 unpadding 次</span>
+	unpadding <span class="token operator">:=</span> <span class="token function">int</span><span class="token punctuation">(</span>origData<span class="token punctuation">[</span>length<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> origData<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">(</span>length <span class="token operator">-</span> unpadding<span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
-<p>转载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51485807/article/details/122924322">https://blog.csdn.net/weixin_51485807/article/details/122924322</a></p>
+
+<p>转载：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51485807/article/details/122924322">https://blog.csdn.net/weixin_51485807/article/details/122924322</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41998415/article/details/124636194">https://blog.csdn.net/qq_41998415/article/details/124636194</a></p>
 
                 
             </div>
