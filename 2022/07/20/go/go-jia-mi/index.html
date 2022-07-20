@@ -1,0 +1,1568 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Go 加密, 夜">
+    <meta name="description" content="Go 基础密码加密解密，包括AES-CBC,Base64/58,哈希,DES/3DES,RSA,数字签名">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Go 加密 | 夜</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="夜" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">夜</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">夜</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/xxdeye" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #6648e9;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/xxdeye" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Go 加密</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Go/">
+                                <span class="chip bg-color">Go</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Go/" class="post-category">
+                                Go
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-07-20
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="各密码模块"><a href="#各密码模块" class="headerlink" title="各密码模块"></a>各密码模块</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> public
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"bytes"</span>
+	<span class="token string">"crypto"</span>
+	<span class="token string">"crypto/aes"</span>
+	<span class="token string">"crypto/cipher"</span>
+	<span class="token string">"crypto/des"</span>
+	<span class="token string">"crypto/md5"</span>
+	<span class="token string">"crypto/rand"</span>
+	<span class="token string">"crypto/rsa"</span>
+	<span class="token string">"crypto/sha256"</span>
+	<span class="token string">"crypto/x509"</span>
+	<span class="token string">"encoding/base64"</span>
+	<span class="token string">"encoding/hex"</span>
+	<span class="token string">"encoding/pem"</span>
+	<span class="token string">"errors"</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"golang.org/x/crypto/md4"</span>
+	<span class="token string">"math/big"</span>
+	<span class="token string">"os"</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment">//  ----------------------- AES-CBC -----------------------</span>
+
+<span class="token keyword">func</span> <span class="token function">CBCEncrypt</span><span class="token punctuation">(</span>text <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> key <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> iv <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	block<span class="token punctuation">,</span> err <span class="token operator">:=</span> aes<span class="token punctuation">.</span><span class="token function">NewCipher</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	padText <span class="token operator">:=</span> <span class="token function">PKCS7Padding</span><span class="token punctuation">(</span>text<span class="token punctuation">,</span> block<span class="token punctuation">.</span><span class="token function">BlockSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 填充</span>
+	blockMode <span class="token operator">:=</span> cipher<span class="token punctuation">.</span><span class="token function">NewCBCEncrypter</span><span class="token punctuation">(</span>block<span class="token punctuation">,</span> iv<span class="token punctuation">)</span>
+	result <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>padText<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 加密</span>
+	blockMode<span class="token punctuation">.</span><span class="token function">CryptBlocks</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> padText<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> result
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">CBCDecrypt</span><span class="token punctuation">(</span>encrypt <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> key <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> iv <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	block<span class="token punctuation">,</span> err <span class="token operator">:=</span> aes<span class="token punctuation">.</span><span class="token function">NewCipher</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	blockMode <span class="token operator">:=</span> cipher<span class="token punctuation">.</span><span class="token function">NewCBCDecrypter</span><span class="token punctuation">(</span>block<span class="token punctuation">,</span> iv<span class="token punctuation">)</span>
+	result <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>encrypt<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	blockMode<span class="token punctuation">.</span><span class="token function">CryptBlocks</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> encrypt<span class="token punctuation">)</span>
+	<span class="token comment">// 去除填充</span>
+	result <span class="token operator">=</span> <span class="token function">UnPKCS7Padding</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> result
+<span class="token punctuation">}</span>
+
+<span class="token comment">// PKCS7Padding 计算待填充的长度</span>
+<span class="token keyword">func</span> <span class="token function">PKCS7Padding</span><span class="token punctuation">(</span>text <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> blockSize <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	padding <span class="token operator">:=</span> blockSize <span class="token operator">-</span> <span class="token function">len</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token operator">%</span>blockSize
+	<span class="token keyword">var</span> paddingText <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span>
+	<span class="token keyword">if</span> padding <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+		paddingText <span class="token operator">=</span> bytes<span class="token punctuation">.</span><span class="token function">Repeat</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token function">byte</span><span class="token punctuation">(</span>blockSize<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">,</span> blockSize<span class="token punctuation">)</span> <span class="token comment">// 已对齐，填充一整块数据，每个数据为 blockSize</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+		paddingText <span class="token operator">=</span> bytes<span class="token punctuation">.</span><span class="token function">Repeat</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token function">byte</span><span class="token punctuation">(</span>padding<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">,</span> padding<span class="token punctuation">)</span> <span class="token comment">// 未对齐 填充 padding 个数据，每个数据为 padding</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token function">append</span><span class="token punctuation">(</span>text<span class="token punctuation">,</span> paddingText<span class="token operator">...</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// UnPKCS7Padding 取出填充的数据 以此来获得填充数据长度</span>
+<span class="token keyword">func</span> <span class="token function">UnPKCS7Padding</span><span class="token punctuation">(</span>text <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	unPadding <span class="token operator">:=</span> <span class="token function">int</span><span class="token punctuation">(</span>text<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> text<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token operator">-</span> unPadding<span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- BASE64 -----------------------</span>
+
+<span class="token keyword">func</span> <span class="token function">Base64Encoding</span><span class="token punctuation">(</span>input <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	<span class="token keyword">return</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Base64Decoding</span><span class="token punctuation">(</span>encodeString <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	decodeBytes<span class="token punctuation">,</span> err <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">DecodeString</span><span class="token punctuation">(</span>encodeString<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token string">""</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>decodeBytes<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Base64UrlEncoding</span><span class="token punctuation">(</span>input <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	<span class="token keyword">return</span> base64<span class="token punctuation">.</span>URLEncoding<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">Base64UrlDecoding</span><span class="token punctuation">(</span>encodeUrl <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	uDec<span class="token punctuation">,</span> err <span class="token operator">:=</span> base64<span class="token punctuation">.</span>URLEncoding<span class="token punctuation">.</span><span class="token function">DecodeString</span><span class="token punctuation">(</span>encodeUrl<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token string">""</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>uDec<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- BASE58 -----------------------</span>
+
+<span class="token keyword">var</span> b58 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Base58Encoding base58编码</span>
+<span class="token keyword">func</span> <span class="token function">Base58Encoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	<span class="token comment">// todo 转成十进制</span>
+	i <span class="token operator">:=</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">SetBytes</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span>
+	<span class="token comment">// todo 循环取余</span>
+	<span class="token keyword">var</span> modSlice <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">.</span><span class="token function">Cmp</span><span class="token punctuation">(</span>big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+		mod <span class="token operator">:=</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+		i58 <span class="token operator">:=</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">58</span><span class="token punctuation">)</span>
+		i<span class="token punctuation">.</span><span class="token function">DivMod</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> i58<span class="token punctuation">,</span> mod<span class="token punctuation">)</span>                         <span class="token comment">// 取余</span>
+		modSlice <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>modSlice<span class="token punctuation">,</span> b58<span class="token punctuation">[</span>mod<span class="token punctuation">.</span><span class="token function">Int64</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// 将余数添加到数组中</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 把0使用字节'1'代替</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> s <span class="token operator">:=</span> <span class="token keyword">range</span> srcByte <span class="token punctuation">{</span>
+		<span class="token keyword">if</span> s <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+			<span class="token keyword">break</span>
+		<span class="token punctuation">}</span>
+		modSlice <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>modSlice<span class="token punctuation">,</span> <span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token comment">// todo 反转byte数组</span>
+	retModSlice <span class="token operator">:=</span> <span class="token function">ReverseByteArr</span><span class="token punctuation">(</span>modSlice<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>retModSlice<span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Base58Decoding base58解码</span>
+<span class="token keyword">func</span> <span class="token function">Base58Decoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	<span class="token comment">// 转成byte数组</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	<span class="token comment">// 这里得到的是十进制</span>
+	ret <span class="token operator">:=</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> b <span class="token operator">:=</span> <span class="token keyword">range</span> srcByte <span class="token punctuation">{</span>
+		i <span class="token operator">:=</span> bytes<span class="token punctuation">.</span><span class="token function">IndexByte</span><span class="token punctuation">(</span>b58<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+		ret<span class="token punctuation">.</span><span class="token function">Mul</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token number">58</span><span class="token punctuation">)</span><span class="token punctuation">)</span>       <span class="token comment">// 乘回去</span>
+		ret<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> big<span class="token punctuation">.</span><span class="token function">NewInt</span><span class="token punctuation">(</span><span class="token function">int64</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 相加</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>ret<span class="token punctuation">.</span><span class="token function">Bytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">// ReverseByteArr byte数组进行反转方式2</span>
+<span class="token keyword">func</span> <span class="token function">ReverseByteArr</span><span class="token punctuation">(</span>b <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> j <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> j<span class="token punctuation">;</span> i<span class="token punctuation">,</span> j <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> j<span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">{</span>
+		b<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> b
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- 哈希算法 -----------------------</span>
+
+<span class="token comment">// HashMD4Encoding MD4哈希加密</span>
+<span class="token keyword">func</span> <span class="token function">HashMD4Encoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	md4New <span class="token operator">:=</span> md4<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	md4Bytes <span class="token operator">:=</span> md4New<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> hex<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>md4Bytes<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// HashMD5Encoding MD5哈希加密</span>
+<span class="token keyword">func</span> <span class="token function">HashMD5Encoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	md5New <span class="token operator">:=</span> md5<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	md5Bytes <span class="token operator">:=</span> md5New<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> hex<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>md5Bytes<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// HashSHA256Encoding SHA256哈希加密</span>
+<span class="token keyword">func</span> <span class="token function">HashSHA256Encoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	sha256Bytes <span class="token operator">:=</span> sha256<span class="token punctuation">.</span><span class="token function">Sum256</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> hex<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>sha256Bytes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- DES -----------------------</span>
+
+<span class="token comment">// DesEncoding 加密</span>
+<span class="token keyword">func</span> <span class="token function">DesEncoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">,</span> desKey <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo desKey只支持8字节的长度</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	block<span class="token punctuation">,</span> err <span class="token operator">:=</span> des<span class="token punctuation">.</span><span class="token function">NewCipher</span><span class="token punctuation">(</span>desKey<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> src<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 密码填充</span>
+	newSrcByte <span class="token operator">:=</span> <span class="token function">PadPwd</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">,</span> block<span class="token punctuation">.</span><span class="token function">BlockSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	dst <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>newSrcByte<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	block<span class="token punctuation">.</span><span class="token function">Encrypt</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> newSrcByte<span class="token punctuation">)</span>
+	<span class="token comment">// todo base64编码</span>
+	pwd <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// DesDecoding 解密</span>
+<span class="token keyword">func</span> <span class="token function">DesDecoding</span><span class="token punctuation">(</span>pwd <span class="token builtin">string</span><span class="token punctuation">,</span> desKey <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	pwdByte<span class="token punctuation">,</span> err <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">DecodeString</span><span class="token punctuation">(</span>pwd<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	block<span class="token punctuation">,</span> errBlock <span class="token operator">:=</span> des<span class="token punctuation">.</span><span class="token function">NewCipher</span><span class="token punctuation">(</span>desKey<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errBlock <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> errBlock
+	<span class="token punctuation">}</span>
+	dst <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>pwdByte<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	block<span class="token punctuation">.</span><span class="token function">Decrypt</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> pwdByte<span class="token punctuation">)</span>
+	dst<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">UnPadPwd</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// PadPwd 填充密码长度</span>
+<span class="token keyword">func</span> <span class="token function">PadPwd</span><span class="token punctuation">(</span>srcByte <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> blockSize <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span> <span class="token punctuation">{</span>
+	padNum <span class="token operator">:=</span> blockSize <span class="token operator">-</span> <span class="token function">len</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span><span class="token operator">%</span>blockSize
+	ret <span class="token operator">:=</span> bytes<span class="token punctuation">.</span><span class="token function">Repeat</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token function">byte</span><span class="token punctuation">(</span>padNum<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">,</span> padNum<span class="token punctuation">)</span>
+	srcByte <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">,</span> ret<span class="token operator">...</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> srcByte
+<span class="token punctuation">}</span>
+
+<span class="token comment">// UnPadPwd 去掉填充的部分</span>
+<span class="token keyword">func</span> <span class="token function">UnPadPwd</span><span class="token punctuation">(</span>dst <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> dst<span class="token punctuation">,</span> errors<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token string">"长度有误"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	unPadNum <span class="token operator">:=</span> <span class="token function">int</span><span class="token punctuation">(</span>dst<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> dst<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span> <span class="token operator">-</span> unPadNum<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- 3DES-CBC -----------------------</span>
+
+<span class="token comment">// TDesEncoding 3des加密</span>
+<span class="token keyword">func</span> <span class="token function">TDesEncoding</span><span class="token punctuation">(</span>src <span class="token builtin">string</span><span class="token punctuation">,</span> desKey <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo key 24位数</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	block<span class="token punctuation">,</span> err <span class="token operator">:=</span> des<span class="token punctuation">.</span><span class="token function">NewTripleDESCipher</span><span class="token punctuation">(</span>desKey<span class="token punctuation">)</span> <span class="token comment">// 和des的区别</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> src<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 密码填充</span>
+	newSrcByte <span class="token operator">:=</span> <span class="token function">PadPwd</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">,</span> block<span class="token punctuation">.</span><span class="token function">BlockSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	dst <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>newSrcByte<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	block<span class="token punctuation">.</span><span class="token function">Encrypt</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> newSrcByte<span class="token punctuation">)</span>
+	<span class="token comment">// todo base64编码</span>
+	pwd <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">EncodeToString</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// TDesDecoding 3des解密</span>
+<span class="token keyword">func</span> <span class="token function">TDesDecoding</span><span class="token punctuation">(</span>pwd <span class="token builtin">string</span><span class="token punctuation">,</span> desKey <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	pwdByte<span class="token punctuation">,</span> err <span class="token operator">:=</span> base64<span class="token punctuation">.</span>StdEncoding<span class="token punctuation">.</span><span class="token function">DecodeString</span><span class="token punctuation">(</span>pwd<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	block<span class="token punctuation">,</span> errBlock <span class="token operator">:=</span> des<span class="token punctuation">.</span><span class="token function">NewTripleDESCipher</span><span class="token punctuation">(</span>desKey<span class="token punctuation">)</span> <span class="token comment">// 和des的区别</span>
+	<span class="token keyword">if</span> errBlock <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> pwd<span class="token punctuation">,</span> errBlock
+	<span class="token punctuation">}</span>
+	dst <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>pwdByte<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	block<span class="token punctuation">.</span><span class="token function">Decrypt</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> pwdByte<span class="token punctuation">)</span>
+	dst<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> <span class="token function">UnPadPwd</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token function">string</span><span class="token punctuation">(</span>dst<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- RSA -----------------------</span>
+
+<span class="token comment">// SaveRsaKey 生成Rsa公钥私钥并保存</span>
+<span class="token keyword">func</span> <span class="token function">SaveRsaKey</span><span class="token punctuation">(</span>bits <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 处理钥匙</span>
+	privateKey<span class="token punctuation">,</span> err <span class="token operator">:=</span> rsa<span class="token punctuation">.</span><span class="token function">GenerateKey</span><span class="token punctuation">(</span>rand<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> bits<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token keyword">return</span> err
+	<span class="token punctuation">}</span>
+	publicKey <span class="token operator">:=</span> privateKey<span class="token punctuation">.</span>PublicKey
+	x509Private <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">MarshalPKCS1PrivateKey</span><span class="token punctuation">(</span>privateKey<span class="token punctuation">)</span>             <span class="token comment">// 使用x509标准对私钥进行编码，AsN.1编码字符串</span>
+	x509Public <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">MarshalPKCS1PublicKey</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>publicKey<span class="token punctuation">)</span>               <span class="token comment">// 使用x509标准对公钥进行编码，AsN.1编码字符串</span>
+	blockPrivate <span class="token operator">:=</span> pem<span class="token punctuation">.</span>Block<span class="token punctuation">{</span>Type<span class="token punctuation">:</span> <span class="token string">"private key"</span><span class="token punctuation">,</span> Bytes<span class="token punctuation">:</span> x509Private<span class="token punctuation">}</span> <span class="token comment">// 对私钥封装block 结构数据</span>
+	blockPublic <span class="token operator">:=</span> pem<span class="token punctuation">.</span>Block<span class="token punctuation">{</span>Type<span class="token punctuation">:</span> <span class="token string">"public key"</span><span class="token punctuation">,</span> Bytes<span class="token punctuation">:</span> x509Public<span class="token punctuation">}</span>    <span class="token comment">// 对公钥封装block 结构数据</span>
+
+	<span class="token comment">// todo 创建存放私钥的文件</span>
+	privateFile<span class="token punctuation">,</span> errPri <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span><span class="token string">"privateKey.pem"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errPri <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> errPri
+	<span class="token punctuation">}</span>
+	<span class="token keyword">defer</span> privateFile<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	pem<span class="token punctuation">.</span><span class="token function">Encode</span><span class="token punctuation">(</span>privateFile<span class="token punctuation">,</span> <span class="token operator">&amp;</span>blockPrivate<span class="token punctuation">)</span>
+	<span class="token comment">// todo 创建存放公钥的文件</span>
+	publicFile<span class="token punctuation">,</span> errPub <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span><span class="token string">"publicKey.pem"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errPub <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> errPub
+	<span class="token punctuation">}</span>
+	<span class="token keyword">defer</span> publicFile<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	pem<span class="token punctuation">.</span><span class="token function">Encode</span><span class="token punctuation">(</span>publicFile<span class="token punctuation">,</span> <span class="token operator">&amp;</span>blockPublic<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token boolean">nil</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RsaEncoding 加密</span>
+<span class="token keyword">func</span> <span class="token function">RsaEncoding</span><span class="token punctuation">(</span>src<span class="token punctuation">,</span> filePath <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	<span class="token comment">// todo 打开文件</span>
+	file<span class="token punctuation">,</span> err <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 获取文件信息</span>
+	fileInfo<span class="token punctuation">,</span> errInfo <span class="token operator">:=</span> file<span class="token punctuation">.</span><span class="token function">Stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errInfo <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errInfo
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 读取文件内容</span>
+	keyBytes <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> fileInfo<span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	file<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                                       <span class="token comment">// 读取内容到容器里面</span>
+	block<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> pem<span class="token punctuation">.</span><span class="token function">Decode</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                          <span class="token comment">// pem解码</span>
+	publicKey<span class="token punctuation">,</span> errPb <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">ParsePKCS1PublicKey</span><span class="token punctuation">(</span>block<span class="token punctuation">.</span>Bytes<span class="token punctuation">)</span> <span class="token comment">// x509解码</span>
+	<span class="token keyword">if</span> errPb <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errPb
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 使用公钥对明文进行加密</span>
+	retByte<span class="token punctuation">,</span> errRet <span class="token operator">:=</span> rsa<span class="token punctuation">.</span><span class="token function">EncryptPKCS1v15</span><span class="token punctuation">(</span>rand<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> publicKey<span class="token punctuation">,</span> srcByte<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errRet <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errRet
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> retByte<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RsaDecoding 解密</span>
+<span class="token keyword">func</span> <span class="token function">RsaDecoding</span><span class="token punctuation">(</span>srcByte <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> filePath <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 打开文件</span>
+	file<span class="token punctuation">,</span> err <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 获取文件信息</span>
+	fileInfo<span class="token punctuation">,</span> errInfo <span class="token operator">:=</span> file<span class="token punctuation">.</span><span class="token function">Stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errInfo <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errInfo
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 读取文件内容</span>
+	keyBytes <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> fileInfo<span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token comment">// 读取内容到容器里面</span>
+	file<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>
+	block<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> pem<span class="token punctuation">.</span><span class="token function">Decode</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                            <span class="token comment">// pem解码</span>
+	privateKey<span class="token punctuation">,</span> errPb <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">ParsePKCS1PrivateKey</span><span class="token punctuation">(</span>block<span class="token punctuation">.</span>Bytes<span class="token punctuation">)</span> <span class="token comment">// x509解码</span>
+	<span class="token keyword">if</span> errPb <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errPb
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 进行解密</span>
+	retByte<span class="token punctuation">,</span> errRet <span class="token operator">:=</span> rsa<span class="token punctuation">.</span><span class="token function">DecryptPKCS1v15</span><span class="token punctuation">(</span>rand<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> privateKey<span class="token punctuation">,</span> srcByte<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errRet <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> srcByte<span class="token punctuation">,</span> errRet
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> retByte<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//  ----------------------- 数字签名 -----------------------</span>
+
+<span class="token keyword">func</span> <span class="token function">GetPrivateKey</span><span class="token punctuation">(</span>filePath <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>rsa<span class="token punctuation">.</span>PrivateKey<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 打开文件</span>
+	file<span class="token punctuation">,</span> err <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PrivateKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 获取文件信息</span>
+	fileInfo<span class="token punctuation">,</span> errInfo <span class="token operator">:=</span> file<span class="token punctuation">.</span><span class="token function">Stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errInfo <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PrivateKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> errInfo
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 读取文件内容</span>
+	keyBytes <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> fileInfo<span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	file<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                                         <span class="token comment">// 读取内容到容器里面</span>
+	block<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> pem<span class="token punctuation">.</span><span class="token function">Decode</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                            <span class="token comment">// pem解码</span>
+	PrivateKey<span class="token punctuation">,</span> errPb <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">ParsePKCS1PrivateKey</span><span class="token punctuation">(</span>block<span class="token punctuation">.</span>Bytes<span class="token punctuation">)</span> <span class="token comment">// x509解码</span>
+	<span class="token keyword">if</span> errPb <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PrivateKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> errPb
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> PrivateKey<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">GetPublicKey</span><span class="token punctuation">(</span>filePath <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>rsa<span class="token punctuation">.</span>PublicKey<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 打开文件</span>
+	file<span class="token punctuation">,</span> err <span class="token operator">:=</span> os<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PublicKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 获取文件信息</span>
+	fileInfo<span class="token punctuation">,</span> errInfo <span class="token operator">:=</span> file<span class="token punctuation">.</span><span class="token function">Stat</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> errInfo <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PublicKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> errInfo
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 读取文件内容</span>
+	keyBytes <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> fileInfo<span class="token punctuation">.</span><span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	file<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                                       <span class="token comment">// 读取内容到容器里面</span>
+	block<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> pem<span class="token punctuation">.</span><span class="token function">Decode</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span>                          <span class="token comment">// pem解码</span>
+	publicKey<span class="token punctuation">,</span> errPb <span class="token operator">:=</span> x509<span class="token punctuation">.</span><span class="token function">ParsePKCS1PublicKey</span><span class="token punctuation">(</span>block<span class="token punctuation">.</span>Bytes<span class="token punctuation">)</span> <span class="token comment">// x509解码</span>
+	<span class="token keyword">if</span> errPb <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">&amp;</span>rsa<span class="token punctuation">.</span>PublicKey<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> errPb
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> publicKey<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RsaSign 数字签名</span>
+<span class="token keyword">func</span> <span class="token function">RsaSign</span><span class="token punctuation">(</span>filePath <span class="token builtin">string</span><span class="token punctuation">,</span> src <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 获取私钥</span>
+	private<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetPrivateKey</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 签名</span>
+	shaNew <span class="token operator">:=</span> sha256<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	shaNew<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span>
+	shaByte <span class="token operator">:=</span> shaNew<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+	v15<span class="token punctuation">,</span> err <span class="token operator">:=</span> rsa<span class="token punctuation">.</span><span class="token function">SignPKCS1v15</span><span class="token punctuation">(</span>rand<span class="token punctuation">.</span>Reader<span class="token punctuation">,</span> private<span class="token punctuation">,</span> crypto<span class="token punctuation">.</span>SHA256<span class="token punctuation">,</span> shaByte<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> v15<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// RsaVerify 验证签名</span>
+<span class="token keyword">func</span> <span class="token function">RsaVerify</span><span class="token punctuation">(</span>sign <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">,</span> src <span class="token builtin">string</span><span class="token punctuation">,</span> filePath <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// todo 拿到公钥</span>
+	public<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetPublicKey</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token comment">// todo 验证签名</span>
+	shaNew <span class="token operator">:=</span> sha256<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	srcByte <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+	shaNew<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span>srcByte<span class="token punctuation">)</span>
+	shaByte <span class="token operator">:=</span> shaNew<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+	err <span class="token operator">=</span> rsa<span class="token punctuation">.</span><span class="token function">VerifyPKCS1v15</span><span class="token punctuation">(</span>public<span class="token punctuation">,</span> crypto<span class="token punctuation">.</span>SHA256<span class="token punctuation">,</span> shaByte<span class="token punctuation">,</span> sign<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>代码实现</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"GoBackEnd/public"</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"log"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// AES-CBC</span>
+	iv <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">byte</span><span class="token punctuation">{</span><span class="token number">0x19</span><span class="token punctuation">,</span> <span class="token number">0x34</span><span class="token punctuation">,</span> <span class="token number">0x57</span><span class="token punctuation">,</span> <span class="token number">0x72</span><span class="token punctuation">,</span> <span class="token number">0x90</span><span class="token punctuation">,</span> <span class="token number">0xAB</span><span class="token punctuation">,</span> <span class="token number">0xCD</span><span class="token punctuation">,</span> <span class="token number">0xEF</span><span class="token punctuation">,</span> <span class="token number">0x12</span><span class="token punctuation">,</span> <span class="token number">0x64</span><span class="token punctuation">,</span> <span class="token number">0x14</span><span class="token punctuation">,</span> <span class="token number">0x78</span><span class="token punctuation">,</span> <span class="token number">0x90</span><span class="token punctuation">,</span> <span class="token number">0xAC</span><span class="token punctuation">,</span> <span class="token number">0xAE</span><span class="token punctuation">,</span> <span class="token number">0x45</span><span class="token punctuation">}</span>
+	key <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"1111111111111111"</span><span class="token punctuation">)</span>
+	AesCbc <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">CBCEncrypt</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> iv<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>AesCbc<span class="token punctuation">)</span>
+	content <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">CBCDecrypt</span><span class="token punctuation">(</span>AesCbc<span class="token punctuation">,</span> key<span class="token punctuation">,</span> iv<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token comment">// BASE64</span>
+	encode <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">Base64Encoding</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>encode<span class="token punctuation">)</span>
+	decode <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">Base64Decoding</span><span class="token punctuation">(</span>encode<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>decode<span class="token punctuation">)</span>
+	<span class="token comment">// BASE58</span>
+	encode <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">Base58Encoding</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>encode<span class="token punctuation">)</span>
+	decode <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">Base58Decoding</span><span class="token punctuation">(</span>encode<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>decode<span class="token punctuation">)</span>
+	<span class="token comment">// 哈希算法</span>
+	md4 <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">HashMD4Encoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>md4<span class="token punctuation">)</span>
+	md5 <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">HashMD5Encoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>md5<span class="token punctuation">)</span>
+	sha <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">HashSHA256Encoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>sha<span class="token punctuation">)</span>
+	<span class="token comment">// DES</span>
+	encode<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">DesEncoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"11111111"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 8位数</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Des:"</span><span class="token punctuation">,</span> encode<span class="token punctuation">)</span>
+	decode<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">DesDecoding</span><span class="token punctuation">(</span>encode<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"11111111"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Des:"</span><span class="token punctuation">,</span> decode<span class="token punctuation">)</span>
+	encode<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">TDesEncoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"111111111111111111111111"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 24位数</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>encode<span class="token punctuation">)</span>
+	decode<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">TDesDecoding</span><span class="token punctuation">(</span>encode<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span><span class="token string">"111111111111111111111111"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>decode<span class="token punctuation">)</span>
+	<span class="token comment">// RSA</span>
+	err <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">SaveRsaKey</span><span class="token punctuation">(</span><span class="token number">2048</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	encoding<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">RsaEncoding</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"publicKey.pem"</span><span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>public<span class="token punctuation">.</span><span class="token function">Base64Encoding</span><span class="token punctuation">(</span>encoding<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	decoding<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">RsaDecoding</span><span class="token punctuation">(</span>encoding<span class="token punctuation">,</span> <span class="token string">"privateKey.pem"</span><span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>decoding<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token comment">// 数字签名</span>
+	encoding<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">=</span> public<span class="token punctuation">.</span><span class="token function">RsaSign</span><span class="token punctuation">(</span><span class="token string">"privateKey.pem"</span><span class="token punctuation">,</span> <span class="token string">"hello"</span><span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>encoding<span class="token punctuation">)</span>
+	isTrue<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> public<span class="token punctuation">.</span><span class="token function">RsaVerify</span><span class="token punctuation">(</span>encoding<span class="token punctuation">,</span> <span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"publicKey.pem"</span><span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>isTrue<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>转载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51485807/article/details/122924322">https://blog.csdn.net/weixin_51485807/article/details/122924322</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">xxdeye</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://xxdeye.github.io/2022/07/20/go/go-jia-mi/">http://xxdeye.github.io/2022/07/20/go/go-jia-mi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">xxdeye</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Go/">
+                                    <span class="chip bg-color">Go</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/07/20/go/go-jia-mi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Go 加密">
+                        
+                        <span class="card-title">Go 加密</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Go 基础密码加密解密，包括AES-CBC,Base64/58,哈希,DES/3DES,RSA,数字签名
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/11/go/go-rsa-jia-jie-mi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Go RSA加解密">
+                        
+                        <span class="card-title">Go RSA加解密</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            RSA加解密
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            <a href="/categories/Go/rsa/" class="post-category">
+                                    rsa
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2022</span>
+            
+            <a href="/about" target="_blank">xxdeye</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/xxdeye" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
