@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-07-20T08:25:05.712Z</updated>
+  <updated>2022-08-01T09:10:04.975Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Minio对象存储</title>
+    <link href="http://xxdeye.github.io/2022/08/01/filestorage/minio/"/>
+    <id>http://xxdeye.github.io/2022/08/01/filestorage/minio/</id>
+    <published>2022-08-01T08:15:52.000Z</published>
+    <updated>2022-08-01T09:10:04.975Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一、Minio对象存储&quot;&gt;&lt;a href=&quot;#一、Minio对象存储&quot; class=&quot;headerlink&quot; title=&quot;一、Minio对象存储&quot;&gt;&lt;/a&gt;一、Minio对象存储&lt;/h2&gt;&lt;h3 id=&quot;分布式&quot;&gt;&lt;a href=&quot;#分布式&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Minio" scheme="http://xxdeye.github.io/categories/Minio/"/>
+    
+    
+    <category term="Minio" scheme="http://xxdeye.github.io/tags/Minio/"/>
+    
+  </entry>
   
   <entry>
     <title>Go 加密</title>
@@ -508,34 +533,6 @@
     <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
     
     <category term="Strings" scheme="http://xxdeye.github.io/categories/Go/Strings/"/>
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go cron使用</title>
-    <link href="http://xxdeye.github.io/2022/01/17/go/go-crontab-shi-yong/"/>
-    <id>http://xxdeye.github.io/2022/01/17/go/go-crontab-shi-yong/</id>
-    <published>2022-01-17T11:18:27.000Z</published>
-    <updated>2022-01-18T08:01:44.467Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;p&gt;&lt;code&gt;go get &quot;github.com/robfig/cron/v3&quot;&lt;/code&gt;&lt;/p&gt;
-&lt;h1 id=&quot;使用&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
-    
-    <category term="cron" scheme="http://xxdeye.github.io/categories/Go/cron/"/>
     
     
     <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
