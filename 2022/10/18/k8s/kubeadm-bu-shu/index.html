@@ -458,7 +458,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-01-06
+                    2022-10-18
                 </div>
                 
 
@@ -506,6 +506,19 @@ EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
 <h2 id="安装kubeadm，kubelet和kubectl"><a href="#安装kubeadm，kubelet和kubectl" class="headerlink" title="安装kubeadm，kubelet和kubectl"></a>安装kubeadm，kubelet和kubectl</h2><p>这里安装的是最新版本</p>
 <pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">yum -y install kubelet-1.23.1 kubeadm-1.23.1 kubectl-1.23.1
 systemctl enable kubelet<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">yum -y install containerd
+mkdir -p /etc/containerd
+containerd config default &gt; /etc/containerd/config.toml
+修改
+systemctl daemon-reload
+systemctl enable containerd
+systemctl restart containerd
+crictl config runtime-endpoint /run/containerd/containerd.sock<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 
 <h2 id="部署Kubernetes-Master"><a href="#部署Kubernetes-Master" class="headerlink" title="部署Kubernetes Master"></a>部署Kubernetes Master</h2><pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">kubeadm init \
 --apiserver-advertise-address=10.0.4.2 \
@@ -616,7 +629,7 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/">http://xxdeye.github.io/2022/01/06/k8s/kubeadm-bu-shu/</a>
+                    <a href="http://xxdeye.github.io/2022/10/18/k8s/kubeadm-bu-shu/">http://xxdeye.github.io/2022/10/18/k8s/kubeadm-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -701,29 +714,30 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/01/07/k8s/kind-kuai-su-da-jian-kubernetes/">
+                <a href="/2022/10/18/k8s/kubeadm-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="kind快速搭建Kubernetes">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="kubeadm部署">
                         
-                        <span class="card-title">kind快速搭建Kubernetes</span>
+                        <span class="card-title">kubeadm部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            kind快速搭建Kubernetes
+                            kubeadm部署
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -736,15 +750,12 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Kubernetes/">
                         <span class="chip bg-color">Kubernetes</span>
-                    </a>
-                    
-                    <a href="/tags/kind/">
-                        <span class="chip bg-color">kind</span>
                     </a>
                     
                 </div>
@@ -758,31 +769,31 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/01/06/git-shi-yong-shou-ce/">
+                <a href="/2022/08/01/filestorage/minio/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Git使用手册">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Minio对象存储">
                         
-                        <span class="card-title">Git使用手册</span>
+                        <span class="card-title">Minio对象存储</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Minio对象存储
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-01
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Git/" class="post-category">
-                                    Git
+                            <a href="/categories/Minio/" class="post-category">
+                                    Minio
                                 </a>
                             
                             
@@ -792,8 +803,8 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Git/">
-                        <span class="chip bg-color">Git</span>
+                    <a href="/tags/Minio/">
+                        <span class="chip bg-color">Minio</span>
                     </a>
                     
                 </div>
@@ -935,7 +946,7 @@ kubernetes-dashboard-7f99b75bf4-89cds        1/1     Running   0          1m<spa
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2022</span>
+                <span id="year">2019-2024</span>
             
             <a href="/about" target="_blank">xxdeye</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

@@ -6,7 +6,7 @@
   <link href="http://xxdeye.github.io/atom.xml" rel="self"/>
   
   <link href="http://xxdeye.github.io/"/>
-  <updated>2022-08-01T09:10:04.975Z</updated>
+  <updated>2022-11-07T02:58:39.304Z</updated>
   <id>http://xxdeye.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kubeadm部署</title>
+    <link href="http://xxdeye.github.io/2022/10/18/k8s/kubeadm-bu-shu/"/>
+    <id>http://xxdeye.github.io/2022/10/18/k8s/kubeadm-bu-shu/</id>
+    <published>2022-10-18T14:03:06.000Z</published>
+    <updated>2022-11-07T02:58:39.304Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;基础环境&quot;&gt;&lt;a href=&quot;#基础环境&quot; class=&quot;headerlink&quot; title=&quot;基础环境&quot;&gt;&lt;/a&gt;基础环境&lt;/h1&gt;&lt;h2 id=&quot;基础配置&quot;&gt;&lt;a href=&quot;#基础配置&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="http://xxdeye.github.io/tags/Kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>Minio对象存储</title>
@@ -506,33 +531,6 @@
     
     
     <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go strings用法</title>
-    <link href="http://xxdeye.github.io/2022/01/18/go/go-strings-yong-fa/"/>
-    <id>http://xxdeye.github.io/2022/01/18/go/go-strings-yong-fa/</id>
-    <published>2022-01-18T08:47:46.000Z</published>
-    <updated>2022-02-23T03:08:11.036Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;strings内置方法&quot;&gt;&lt;a href=&quot;#strings内置方法&quot; class=&quot;headerlink&quot; title=&quot;strings内置方法&quot;&gt;&lt;/a&gt;strings内置方法&lt;/h1&gt;&lt;h2 id=&quot;FieldsFunc&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Go" scheme="http://xxdeye.github.io/categories/Go/"/>
-    
-    <category term="Strings" scheme="http://xxdeye.github.io/categories/Go/Strings/"/>
     
     
     <category term="Go" scheme="http://xxdeye.github.io/tags/Go/"/>
